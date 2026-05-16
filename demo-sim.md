@@ -52,6 +52,34 @@ To undock the robot execute:
 just undock
 ```
 
+## 🌍 Changing the Gazebo World
+
+The world is wired through the `GZ_WORLD` variable in [.env](./.env). If unset, the default `husarion_world.sdf` is used.
+
+**Bundled worlds** (live inside the gazebo image):
+
+| World | Path |
+|---|---|
+| `husarion_world.sdf` (default) | `/ros2_ws/install/husarion_gz_worlds/share/husarion_gz_worlds/worlds/husarion_world.sdf` |
+| `husarion_office.sdf` | `/ros2_ws/install/husarion_gz_worlds/share/husarion_gz_worlds/worlds/husarion_office.sdf` |
+| `sonoma_raceway.sdf` | `/ros2_ws/install/husarion_gz_worlds/share/husarion_gz_worlds/worlds/sonoma_raceway.sdf` |
+| `empty_with_plugins.sdf` | `/ros2_ws/install/husarion_gz_worlds/share/husarion_gz_worlds/worlds/empty_with_plugins.sdf` |
+
+Pick one by editing `.env`:
+
+```bash
+echo 'GZ_WORLD=/ros2_ws/install/husarion_gz_worlds/share/husarion_gz_worlds/worlds/sonoma_raceway.sdf' >> .env
+just start-simulation
+```
+
+**Custom SDF from host:** drop your `.sdf` file into [./worlds/](./worlds/) (mounted into the container at `/worlds`) and point `GZ_WORLD` at it:
+
+```bash
+cp /path/to/my_world.sdf worlds/
+echo 'GZ_WORLD=/worlds/my_world.sdf' >> .env
+just start-simulation
+```
+
 ## ✅ Next Steps
 
 After reviewing this demonstration, we encourage you to experiment and familiarize yourself with the autonomous functionality and use this knowledge to configure the physical robot accordingly. Check:

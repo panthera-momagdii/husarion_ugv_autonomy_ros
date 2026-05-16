@@ -21,12 +21,14 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./config:/config
+      - ./worlds:/worlds
     command: >
       ros2 launch husarion_ugv_gazebo simulation.launch.py
         components_config_path:=/config/components.yaml
         namespace:=panther
         robot_model:=${ROBOT_MODEL:-panther}
         rviz_config:=/config/nav2.rviz
+        gz_world:=${GZ_WORLD:-/ros2_ws/install/husarion_gz_worlds/share/husarion_gz_worlds/worlds/husarion_world.sdf}
 
   docking:
     image: husarion/husarion-ugv-autonomy:jazzy-0.1.2-20250902
