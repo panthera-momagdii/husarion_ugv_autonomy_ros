@@ -165,8 +165,12 @@
         plugins: [stvl_layer, inflation_layer]
         inflation_layer:
           plugin: nav2_costmap_2d::InflationLayer
-          cost_scaling_factor: 2.0
-          inflation_radius: 2.0
+          # Indoor (husarion_world.sdf) tune. Stock husarion was 2.0/2.0
+          # which painted out the narrow corridors. Panther half-width is
+          # ~0.45 m, so 0.6 m radius + a sharper falloff (cost_scaling 3.0)
+          # keeps clearance without flooding the costmap.
+          cost_scaling_factor: 3.0
+          inflation_radius: 0.6
 
         stvl_layer:
           plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
@@ -257,8 +261,12 @@
         plugins: [stvl_layer, inflation_layer]
         inflation_layer:
           plugin: nav2_costmap_2d::InflationLayer
-          cost_scaling_factor: 1.5
-          inflation_radius: 5.0
+          # Indoor (husarion_world.sdf) tune. Stock was 1.5/5.0 which
+          # painted huge halos in the indoor corridors. 0.8 m radius +
+          # sharper falloff (3.0) gives the global planner enough bias
+          # to stay off walls without closing passageways.
+          cost_scaling_factor: 3.0
+          inflation_radius: 0.8
           inflate_around_unknown: false
           inflate_unknown: false
 
