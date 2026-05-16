@@ -3,7 +3,13 @@ components:
   - type: LDR15
     parent_link: mount_link
     xyz: -0.19 0.0 0.15
-    rpy: 0.0 0.0 3.14159
+    # GLIM integration: ouster forward-facing (X+ along robot's X+). Stock
+    # was 0 0 3.14159 because the physical ouster's cable-exit defines its
+    # X- as forward. In sim there's no cable, so we align it with base_link.
+    # Together with the IMU rpy:=0 patch in panther_macro.urdf.xacro this
+    # keeps imu_link, os_lidar, and base_link on a common heading, so
+    # GLIM's identity T_lidar_imu (glim/config/config_sensors.json) is right.
+    rpy: 0.0 0.0 0.0
 
   - type: CAM01
     parent_link: mount_link

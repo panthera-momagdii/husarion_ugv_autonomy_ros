@@ -53,6 +53,11 @@ services:
       # that drift behind /clock. 10 Hz matches what the bridge can
       # actually deliver and what GLIM expects from an ouster.
       - ./config/ouster.urdf.xacro:/ros2_ws/install/husarion_components_description/share/husarion_components_description/urdf/ouster.urdf.xacro:ro
+      # Override the sim branch of panther_macro to align imu_link with
+      # base_link (rpy 0 instead of stock 0 0 3.142). Combined with the
+      # components.yaml ouster rpy:=0 0 0 edit, this makes GLIM's odom
+      # heading match the gazebo ground truth instead of being 180° off.
+      - ./config/panther_macro.urdf.xacro:/ros2_ws/install/husarion_ugv_description/share/husarion_ugv_description/urdf/panther/panther_macro.urdf.xacro:ro
     command: >
       ros2 launch husarion_ugv_gazebo simulation.launch.py
         components_config_path:=/config/components.yaml
