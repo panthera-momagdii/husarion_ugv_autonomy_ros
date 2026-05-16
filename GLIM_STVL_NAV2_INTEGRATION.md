@@ -41,8 +41,7 @@ GLIM gives us:
 | [config/pointcloud_crop_be.py](config/pointcloud_crop_be.py) | Drop-in replacement for `pointcloud_crop_box::PointcloudCropBoxNode` using BEST_EFFORT QoS on both sub and pub. Removes the only RELIABLE consumer of `/panther/ouster/points`, which was bottlenecking the gz lidar bridge under load. |
 | [config/gz_ouster_os_remappings.yaml](config/gz_ouster_os_remappings.yaml) | Override of husarion_components_description's bridge config — adds `publisher_queue_size: 1, subscriber_queue_size: 1`. Mounted over the upstream file in `compose.simulation.glim.yaml`. |
 | [config/ouster.urdf.xacro](config/ouster.urdf.xacro) | Override of the lidar URDF — `update_rate: 20.0 → 10.0`. The gz lidar bridge can only push ~10 Hz of PointCloud2 through DDS on this host, so generating at 20 Hz stuffs the bridge with old frames and timestamps drift behind `/clock`. |
-| [../glim/config/config_ros.json](../glim/config/config_ros.json) | GLIM ROS config — frame IDs `panther/{map,odom,base_link}`, `publish_imu2lidar: false`, `enable_local_mapping: false, enable_global_mapping: false` (Nav2 only needs odom — turning off SLAM cuts CPU and ~20 publishers). |
-| [../glim/config/config.json](../glim/config/config.json) | GLIM master config — switched to `config_odometry_cpu.json` (no GPU contention with gazebo's GPU rays). |
+| [../glim/config/config_ros.json](../glim/config/config_ros.json) | GLIM ROS config — frame IDs `panther/{map,odom,base_link}`, `publish_imu2lidar: false`. Local + global mapping and all viewers stay enabled (default). |
 | [justfile](justfile) | New target `start-simulation-glim`. |
 | [.env](.env) | `ROBOT_NAMESPACE`, `GLIM_CONFIG_DIR`. |
 
@@ -120,14 +119,13 @@ Root cause: gazebo's `gpu_lidar` plugin generates 20 Hz scans (1024 × 128 rays)
 
 When GLIM has *no* downstream subscribers (`docker run koide3/glim` against `start-simulation`, like the user originally did), the legacy stack works because only one RELIABLE consumer (`pointcloud_crop_box`) is on the bus and there's no contention with a nav2 stack actively running. Add the full GLIM-backed nav2 stack and the bridge falls behind permanently.
 
-Four overlapping fixes, smallest-blast-radius first:
+Three overlapping fixes, smallest-blast-radius first:
 
 1. **Lidar URDF: `update_rate: 20.0 → 10.0`** — [config/ouster.urdf.xacro](config/ouster.urdf.xacro), mounted over `/ros2_ws/install/husarion_components_description/share/husarion_components_description/urdf/ouster.urdf.xacro` in the gazebo container. Cuts the lidar plugin's per-second ray work in half. *This is the single highest-impact change* — without it the bridge can never catch up.
 2. **gz bridge queue size 1** — [config/gz_ouster_os_remappings.yaml](config/gz_ouster_os_remappings.yaml), mounted over the upstream. `publisher_queue_size: 1, subscriber_queue_size: 1` so the bridge drops stale frames on backpressure instead of queuing them with old timestamps.
 3. **BEST_EFFORT crop replacement** — [config/pointcloud_crop_be.py](config/pointcloud_crop_be.py). The upstream `pointcloud_crop_box` C++ node subscribes RELIABLE; with that gone the only RELIABLE consumer on `/panther/ouster/points` is removed and the publisher doesn't back-pressure.
-4. **GLIM lightweight mode** — `enable_local_mapping: false`, `enable_global_mapping: false`, CPU odometry. GLIM publishes only what Nav2 actually needs (`/glim_ros/odom` + TF). ~20 unused publishers and the GPU-CT-ICP pipeline are removed.
 
-After all four, lidar stamps stay within ~1 s of `/clock` indefinitely. GLIM stays in sync, costmaps update every ~1 s, Nav2 plans + drives toward goals.
+After all three, lidar stamps stay within ~1 s of `/clock` indefinitely. GLIM stays in sync with all its features enabled (GPU odometry, local + global mapping, full viewer extensions), costmaps update every ~1 s, Nav2 plans + drives toward goals.
 
 If you're deploying on a host stronger than this workstation, you may be able to skip (1) and (2) and keep the 20 Hz lidar. Watch `ros2 topic echo /panther/ouster/points --once --field header.stamp` vs `ros2 topic echo /clock --once --field clock` over a few minutes — if the gap stays under ~1 s, you're fine.
 
