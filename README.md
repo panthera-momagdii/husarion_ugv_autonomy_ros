@@ -11,3 +11,4 @@ We recommend starting with the simulation demo, as it lets you explore the auton
 
 - [Simulation Demo](./demo-sim.md)
 - [Hardware Demo](./demo-hw.md)
+- [Tuning Notes — Outdoor / Sonoma](./TUNING_NOTES.md) — session insights, param diffs, suggestions

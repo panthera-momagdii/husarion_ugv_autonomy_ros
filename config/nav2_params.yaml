@@ -140,9 +140,10 @@
         update_frequency: 5.0
         publish_frequency: 2.0
 
-        width: 8
-        height: 8
-        resolution: 0.02
+        # Outdoor: window widened to match obstacle_range; coarser cells for perf
+        width: 20
+        height: 20
+        resolution: 0.10
 
         always_send_full_costmap: true
         rolling_window: true
@@ -155,20 +156,24 @@
           cost_scaling_factor: 2.0
           inflation_radius: 2.0
 
+        # STVL tuned for outdoor / variable-height terrain (Sonoma raceway).
+        # voxel_size = 0.12 acts as the downsampler (no external voxel-grid
+        # node needed); voxel_min_points=1 keeps every voxel that has any hit.
+        # min_obstacle_height >= 0.10 filters the ground (Ouster is ~0.4m AGL).
         stvl_layer:
           plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
           enabled: true
-          voxel_decay: 1.0
-          decay_model: 0
-          voxel_size: 0.05
+          voxel_decay: 2.0          # short local persistence — avoid stale marks accumulating
+          decay_model: 0            # linear decay
+          voxel_size: 0.12          # internal downsampler (~16x fewer voxels vs 0.05)
           track_unknown_space: true
-          unknown_threshold: 15
+          unknown_threshold: 6      # mark sooner — outdoor scans are sparser
           mark_threshold: 0
           update_footprint_enabled: true
           combination_method: 1
           origin_z: 0.0
           publish_voxel_map: true
-          transform_tolerance: 0.2
+          transform_tolerance: 0.3  # extra slack for outdoor TF
           mapping_mode: false
           map_save_duration: 60.0
           observation_sources: <observation_topic_type>
@@ -177,40 +182,40 @@
             topic: <observation_topic>_filtered
             marking: true
             clearing: true
-            obstacle_range: 3.0
-            min_obstacle_height: 0.0
-            max_obstacle_height: 2.0
-            expected_update_rate: 0.0
+            obstacle_range: 25.0    # Ouster sees far; was 3.0 (indoor)
+            min_obstacle_height: 0.10  # filter ground (lidar is ~0.4m AGL)
+            max_obstacle_height: 2.5   # ignore tall structures/sky
+            expected_update_rate: 1.0
             observation_persistence: 0.0
             inf_is_valid: false
             filter: "voxel"
-            voxel_min_points: 2
+            voxel_min_points: 1     # use every point that survives the voxel filter
             clear_after_reading: true
-            max_z: 7.0
-            min_z: 0.1
+            max_z: 2.5
+            min_z: 0.10
             vertical_fov_angle: 0.8745
             horizontal_fov_angle: 1.048
-            decay_acceleration: 15.0
+            decay_acceleration: 10.0 # aggressive ray-clearing so stale marks vanish quickly
             model_type: 0
           laserscan:
             data_type: LaserScan
             topic: <observation_topic>
             marking: true
             clearing: true
-            obstacle_range: 3.0
-            min_obstacle_height: 0.0
-            max_obstacle_height: 2.0
-            expected_update_rate: 0.0
+            obstacle_range: 25.0
+            min_obstacle_height: 0.10
+            max_obstacle_height: 2.5
+            expected_update_rate: 1.0
             observation_persistence: 0.0
             inf_is_valid: false
             filter: "voxel"
-            voxel_min_points: 2
+            voxel_min_points: 1
             clear_after_reading: true
-            max_z: 7.0
-            min_z: 0.1
+            max_z: 2.5
+            min_z: 0.10
             vertical_fov_angle: 0.8745
             horizontal_fov_angle: 1.048
-            decay_acceleration: 15.0
+            decay_acceleration: 10.0
             model_type: 0
 
 
@@ -226,7 +231,7 @@
         update_frequency: 1.0
         publish_frequency: 1.0
 
-        resolution: 0.05
+        resolution: 0.10  # outdoor scale
 
         always_send_full_costmap: true
         track_unknown_space: true # if false, treats unknown space as free space, else as unknown space
@@ -245,20 +250,21 @@
           map_subscribe_transient_local: true
           map_topic: /<namespace>/map
 
+        # Global STVL — same outdoor tune as local, longer obstacle_range
         stvl_layer:
           plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
           enabled: true
-          voxel_decay: 1.0
+          voxel_decay: 15.0         # global keeps marks longer for mapping
           decay_model: 0
-          voxel_size: 0.05
+          voxel_size: 0.12
           track_unknown_space: true
-          unknown_threshold: 15
+          unknown_threshold: 6
           mark_threshold: 0
           update_footprint_enabled: true
           combination_method: 1
           origin_z: 0.0
           publish_voxel_map: true
-          transform_tolerance: 0.2
+          transform_tolerance: 0.3
           mapping_mode: false
           map_save_duration: 60.0
           observation_sources: <observation_topic_type>
@@ -267,40 +273,40 @@
             topic: <observation_topic>_filtered
             marking: true
             clearing: true
-            obstacle_range: 8.0
-            min_obstacle_height: 0.0
-            max_obstacle_height: 2.0
-            expected_update_rate: 0.0
+            obstacle_range: 40.0    # global reach — track scale
+            min_obstacle_height: 0.10
+            max_obstacle_height: 2.5
+            expected_update_rate: 1.0
             observation_persistence: 0.0
             inf_is_valid: false
             filter: "voxel"
-            voxel_min_points: 2
+            voxel_min_points: 1
             clear_after_reading: true
-            max_z: 7.0
-            min_z: 0.1
+            max_z: 2.5
+            min_z: 0.10
             vertical_fov_angle: 0.8745
             horizontal_fov_angle: 1.048
-            decay_acceleration: 15.0
+            decay_acceleration: 5.0
             model_type: 0
           laserscan:
             data_type: LaserScan
             topic: <observation_topic>
             marking: true
             clearing: true
-            obstacle_range: 8.0
-            min_obstacle_height: 0.0
-            max_obstacle_height: 2.0
-            expected_update_rate: 0.0
+            obstacle_range: 40.0
+            min_obstacle_height: 0.10
+            max_obstacle_height: 2.5
+            expected_update_rate: 1.0
             observation_persistence: 0.0
             inf_is_valid: false
             filter: "voxel"
-            voxel_min_points: 2
+            voxel_min_points: 1
             clear_after_reading: true
-            max_z: 7.0
-            min_z: 0.1
+            max_z: 2.5
+            min_z: 0.10
             vertical_fov_angle: 0.8745
             horizontal_fov_angle: 1.048
-            decay_acceleration: 15.0
+            decay_acceleration: 5.0
             model_type: 0
 
 
