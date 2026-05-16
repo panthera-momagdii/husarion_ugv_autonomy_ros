@@ -1,0 +1,33 @@
+x-common-config:
+  &common-config
+  network_mode: host
+  ipc: host
+
+
+services:
+  luxonis:
+    image: husarion/depthai:humble-v2.10.3
+    <<: *common-config
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb
+      - ../config:/config
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - CYCLONE_DDS_URI=file:///config/cyclonedds.xml
+    device_cgroup_rules:
+      - 'c 189:* rmw'
+    command: >
+      ros2 launch depthai_ros_driver camera.launch.py
+        camera_model:=OAK-D-LITE
+        params_file:=/config/luxonis.yaml
+
+  luxonis_static_transform:
+    image: husarion/husarion-ugv-autonomy:humble-0.1.0-20250210-stable
+    <<: *common-config
+    volumes:
+      - ../config:/config
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - CYCLONE_DDS_URI=file:///config/cyclonedds.xml
+    command: >
+      ros2 run tf2_ros static_transform_publisher 0.2 0.0 0.2 0 0 0 panther/cover_link oak-d-base-frame

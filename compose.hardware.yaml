@@ -1,0 +1,39 @@
+x-common-config:
+  &common-config
+  network_mode: host
+  ipc: host
+  env_file: .env
+
+services:
+  docking:
+    image: husarion/husarion-ugv-autonomy:jazzy-0.1.2-20250902
+    container_name: docking
+    <<: *common-config
+    volumes:
+      - ./config:/config
+    command: >
+      ros2 launch husarion_ugv_docking docking.launch.py
+        apriltag_size:=0.08
+        camera_image_topic:=${CAMERA_IMAGE_TOPIC:-/panther/camera/color/image_raw}
+        camera_info_topic:=${CAMERA_INFO_TOPIC:-/panther/camera/color/camera_info}
+        docking_server_config_path:=/config/docking_server.yaml
+        namespace:=panther
+        use_sim:=False
+        use_wibotic_info:=True
+
+  navigation:
+    image: husarion/husarion-ugv-autonomy:jazzy-0.1.2-20250902
+    container_name: navigation
+    <<: *common-config
+    volumes:
+      - ./config:/config
+      - ../maps:/maps
+    command: >
+      ros2 launch husarion_ugv_navigation bringup_launch.py
+        observation_topic:=${OBSERVATION_TOPIC:-err}
+        observation_topic_type:=${OBSERVATION_TOPIC_TYPE:-err}
+        namespace:=panther
+        params_file:=/config/nav2_params.yaml
+        robot_model:=${ROBOT_MODEL:-panther}
+        slam:=${SLAM:-True}
+        use_sim_time:=False

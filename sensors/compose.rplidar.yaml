@@ -1,0 +1,32 @@
+x-common-config:
+  &common-config
+  network_mode: host
+  ipc: host
+
+
+services:
+  rplidar:
+    image: husarion/rplidar:humble-ros2-husarion-ugv
+    <<: *common-config
+    volumes:
+      - ../config:/config
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - CYCLONE_DDS_URI=file:///config/cyclonedds.xml
+    devices:
+      - /dev/ttyUSB0
+    command: >
+      ros2 launch /husarion_utils/rplidar.launch.py
+        serial_baudrate:=${RPLIDAR_BAUDRATE:-115200}
+        namespace:=panther
+
+  rplidar_static_transform:
+    image: husarion/husarion-ugv-autonomy:humble-0.1.0-20250210-stable
+    <<: *common-config
+    volumes:
+      - ../config:/config
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - CYCLONE_DDS_URI=file:///config/cyclonedds.xml
+    command: >
+      ros2 run tf2_ros static_transform_publisher 0.25 0.1 0.0 0 0 0 panther/cover_link laser

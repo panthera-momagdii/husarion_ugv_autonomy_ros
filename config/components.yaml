@@ -1,0 +1,17 @@
+---
+components:
+  - type: LDR15
+    parent_link: mount_link
+    xyz: -0.19 0.0 0.15
+    rpy: 0.0 0.0 3.14159
+
+  - type: CAM01
+    parent_link: mount_link
+    xyz: 0.2 0.0 0.05
+    rpy: 0.0 0.0 0.0
+    device_namespace: camera
+
+  - type: WCH01
+    parent_link: lights_channel_1_link
+    xyz: -0.02 0.0 -0.0185
+    rpy: 0.0 0.0 0.0

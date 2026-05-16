@@ -1,0 +1,604 @@
+non-network local connections being added to access control list
+Attaching to docking, gazebo, navigation
+docking  | [INFO] [launch]: All log files can be found below /root/.ros/log/2026-05-07-11-30-42-127896-wakeb-1
+docking  | [INFO] [launch]: Default logging verbosity is set to INFO
+navigation  | [INFO] [launch]: All log files can be found below /root/.ros/log/2026-05-07-11-30-42-128444-wakeb-1
+navigation  | [INFO] [launch]: Default logging verbosity is set to INFO
+gazebo      | [INFO] [launch]: All log files can be found below /root/.ros/log/2026-05-07-11-30-42-389589-wakeb-1
+gazebo      | [INFO] [launch]: Default logging verbosity is set to INFO
+navigation  | [INFO] [pointcloud_crop_box_node-1]: process started with pid [63]
+navigation  | [INFO] [pointcloud_to_laserscan_node-2]: process started with pid [64]
+navigation  | [INFO] [component_container_isolated-3]: process started with pid [65]
+navigation  | [INFO] [map_saver_server-4]: process started with pid [66]
+navigation  | [INFO] [lifecycle_manager-5]: process started with pid [67]
+navigation  | [INFO] [sync_slam_toolbox_node-6]: process started with pid [68]
+navigation  | [INFO] [map_autosaver_node-7]: process started with pid [69]
+navigation  | [map_autosaver_node-7] [INFO] [1778153442.793863267] [panther.map_autosaver]: Map saver initialized with period 15 seconds
+navigation  | [lifecycle_manager-5] [INFO] [1778153442.795999980] [panther.lifecycle_manager_slam]: Creating
+navigation  | [lifecycle_manager-5] [INFO] [1778153442.798828523] [panther.lifecycle_manager_slam]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+navigation  | [sync_slam_toolbox_node-6] [INFO] [1778153442.804882699] [panther.slam_toolbox]: Node using stack size 40000000
+navigation  | [pointcloud_crop_box_node-1] [INFO] [1778153442.806248685] [panther.pointcloud_crop_box]: Bounding box visualization enabled.
+navigation  | [pointcloud_crop_box_node-1] [INFO] [1778153442.806845319] [panther.pointcloud_crop_box]: Initialized successfully.
+navigation  | [lifecycle_manager-5] [INFO] [1778153442.814100529] [panther.lifecycle_manager_slam]: [34m[1mStarting managed nodes bringup...[0m[0m
+navigation  | [lifecycle_manager-5] [INFO] [1778153442.814134162] [panther.lifecycle_manager_slam]: [34m[1mConfiguring map_saver[0m[0m
+navigation  | [map_saver_server-4] [INFO] [1778153442.814239558] [panther.map_saver]: 
+navigation  | [map_saver_server-4] 	map_saver lifecycle node launched. 
+navigation  | [map_saver_server-4] 	Waiting on external lifecycle transitions to activate
+navigation  | [map_saver_server-4] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+navigation  | [map_saver_server-4] [INFO] [1778153442.814472487] [panther.map_saver]: Creating
+navigation  | [map_saver_server-4] [INFO] [1778153442.829697501] [panther.map_saver]: Configuring
+navigation  | [lifecycle_manager-5] [INFO] [1778153442.833248703] [panther.lifecycle_manager_slam]: [34m[1mActivating map_saver[0m[0m
+navigation  | [map_saver_server-4] [INFO] [1778153442.833336481] [panther.map_saver]: Activating
+navigation  | [map_saver_server-4] [INFO] [1778153442.833354487] [panther.map_saver]: Creating bond (map_saver) to lifecycle manager.
+navigation  | [lifecycle_manager-5] [INFO] [1778153442.935125002] [panther.lifecycle_manager_slam]: Server map_saver connected with bond.
+navigation  | [lifecycle_manager-5] [INFO] [1778153442.935154685] [panther.lifecycle_manager_slam]: [34m[1mManaged nodes are active[0m[0m
+navigation  | [lifecycle_manager-5] [INFO] [1778153442.935164083] [panther.lifecycle_manager_slam]: [34m[1mCreating bond timer...[0m[0m
+gazebo      | [INFO] [launch.user]: [1m
+gazebo      |  ____             _   _
+gazebo      | |  _ \ __ _ _ __ | |_| |__   ___ _ __
+gazebo      | | |_) / _` | '_ \| __| '_ \ / _ \ '__|
+gazebo      | |  __/ (_| | | | | |_| | | |  __/ |
+gazebo      | |_|   \__,_|_| |_|\__|_| |_|\___|_|
+gazebo      | 
+gazebo      | [0m[1mSerial Number[0m: ----
+gazebo      | [1mRobot Version[0m: simulation
+gazebo      | [1mROS Driver Version[0m: 2.3.1
+gazebo      | 
+gazebo      | [1mRobot namespace[0m: panther
+gazebo      | [1mInitial pose[0m: (0.0, -2.0, 0.2, 0.0, 0.0, 0.0)
+gazebo      | [1mWebsite[0m: https://husarion.com
+gazebo      | [1mSupport[0m: https://community.husarion.com/
+gazebo      | [1mBug Tracker[0m: https://github.com/husarion/husarion_ugv_ros/issues
+gazebo      | 
+navigation  | [component_container_isolated-3] [INFO] [1778153443.022100681] [panther.nav2_container]: Load Library: /opt/ros/jazzy/lib/libcontroller_server_core.so
+navigation  | [sync_slam_toolbox_node-6] [INFO] [1778153443.023222989] [panther.slam_toolbox]: Configuring
+navigation  | [sync_slam_toolbox_node-6] [INFO] [1778153443.027958706] [panther.slam_toolbox]: Using solver plugin solver_plugins::CeresSolver
+navigation  | [sync_slam_toolbox_node-6] [INFO] [1778153443.028241534] [panther.slam_toolbox]: CeresSolver: Using SCHUR_JACOBI preconditioner.
+navigation  | [INFO] [launch.user]: [LifecycleLaunch] Slamtoolbox node is activating.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.036190151] [panther.nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_controller::ControllerServer>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.036228759] [panther.nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_controller::ControllerServer>
+navigation  | [sync_slam_toolbox_node-6] [INFO] [1778153443.037535186] [panther.slam_toolbox]: Activating
+navigation  | [component_container_isolated-3] [INFO] [1778153443.043591398] [panther.controller_server]: 
+navigation  | [component_container_isolated-3] 	controller_server lifecycle node launched. 
+navigation  | [component_container_isolated-3] 	Waiting on external lifecycle transitions to activate
+navigation  | [component_container_isolated-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.047288750] [panther.controller_server]: Creating controller server
+navigation  | [component_container_isolated-3] [INFO] [1778153443.051541234] [panther.local_costmap.local_costmap]: 
+navigation  | [component_container_isolated-3] 	local_costmap lifecycle node launched. 
+navigation  | [component_container_isolated-3] 	Waiting on external lifecycle transitions to activate
+navigation  | [component_container_isolated-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.052386771] [panther.local_costmap.local_costmap]: Creating Costmap
+navigation  | [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/panther/controller_server' in container 'panther/nav2_container'
+navigation  | [component_container_isolated-3] [INFO] [1778153443.054046617] [panther.nav2_container]: Load Library: /opt/ros/jazzy/lib/libsmoother_server_core.so
+navigation  | [component_container_isolated-3] [INFO] [1778153443.055292508] [panther.nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_smoother::SmootherServer>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.055304492] [panther.nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_smoother::SmootherServer>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.058252435] [panther.smoother_server]: 
+navigation  | [component_container_isolated-3] 	smoother_server lifecycle node launched. 
+navigation  | [component_container_isolated-3] 	Waiting on external lifecycle transitions to activate
+navigation  | [component_container_isolated-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.059498202] [panther.smoother_server]: Creating smoother server
+navigation  | [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/panther/smoother_server' in container 'panther/nav2_container'
+navigation  | [component_container_isolated-3] [INFO] [1778153443.061273578] [panther.nav2_container]: Load Library: /opt/ros/jazzy/lib/libplanner_server_core.so
+navigation  | [component_container_isolated-3] [INFO] [1778153443.061985020] [panther.nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_planner::PlannerServer>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.061996202] [panther.nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_planner::PlannerServer>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.065047741] [panther.planner_server]: 
+navigation  | [component_container_isolated-3] 	planner_server lifecycle node launched. 
+navigation  | [component_container_isolated-3] 	Waiting on external lifecycle transitions to activate
+navigation  | [component_container_isolated-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.066341091] [panther.planner_server]: Creating
+navigation  | [component_container_isolated-3] [INFO] [1778153443.069812286] [panther.global_costmap.global_costmap]: 
+navigation  | [component_container_isolated-3] 	global_costmap lifecycle node launched. 
+navigation  | [component_container_isolated-3] 	Waiting on external lifecycle transitions to activate
+navigation  | [component_container_isolated-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.070232655] [panther.global_costmap.global_costmap]: Creating Costmap
+navigation  | [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/panther/planner_server' in container 'panther/nav2_container'
+navigation  | [component_container_isolated-3] [INFO] [1778153443.072576992] [panther.nav2_container]: Load Library: /opt/ros/jazzy/lib/libbehavior_server_core.so
+navigation  | [component_container_isolated-3] [INFO] [1778153443.073267076] [panther.nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<behavior_server::BehaviorServer>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.073279325] [panther.nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<behavior_server::BehaviorServer>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.077741799] [panther.behavior_server]: 
+navigation  | [component_container_isolated-3] 	behavior_server lifecycle node launched. 
+navigation  | [component_container_isolated-3] 	Waiting on external lifecycle transitions to activate
+navigation  | [component_container_isolated-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+navigation  | [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/panther/behavior_server' in container 'panther/nav2_container'
+navigation  | [component_container_isolated-3] [INFO] [1778153443.081233939] [panther.nav2_container]: Load Library: /opt/ros/jazzy/lib/libbt_navigator_core.so
+navigation  | [component_container_isolated-3] [INFO] [1778153443.081902484] [panther.nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_bt_navigator::BtNavigator>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.081914131] [panther.nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_bt_navigator::BtNavigator>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.086109003] [panther.bt_navigator]: 
+navigation  | [component_container_isolated-3] 	bt_navigator lifecycle node launched. 
+navigation  | [component_container_isolated-3] 	Waiting on external lifecycle transitions to activate
+navigation  | [component_container_isolated-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.087403010] [panther.bt_navigator]: Creating
+navigation  | [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/panther/bt_navigator' in container 'panther/nav2_container'
+navigation  | [component_container_isolated-3] [INFO] [1778153443.089009458] [panther.nav2_container]: Load Library: /opt/ros/jazzy/lib/libwaypoint_follower_core.so
+navigation  | [component_container_isolated-3] [INFO] [1778153443.089988143] [panther.nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_waypoint_follower::WaypointFollower>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.090001864] [panther.nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_waypoint_follower::WaypointFollower>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.093426270] [panther.waypoint_follower]: 
+navigation  | [component_container_isolated-3] 	waypoint_follower lifecycle node launched. 
+navigation  | [component_container_isolated-3] 	Waiting on external lifecycle transitions to activate
+navigation  | [component_container_isolated-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.093973815] [panther.waypoint_follower]: Creating
+navigation  | [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/panther/waypoint_follower' in container 'panther/nav2_container'
+navigation  | [component_container_isolated-3] [INFO] [1778153443.095487359] [panther.nav2_container]: Load Library: /opt/ros/jazzy/lib/libvelocity_smoother_core.so
+navigation  | [component_container_isolated-3] [INFO] [1778153443.096133067] [panther.nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_velocity_smoother::VelocitySmoother>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.096144421] [panther.nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_velocity_smoother::VelocitySmoother>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.099975159] [panther.velocity_smoother]: 
+navigation  | [component_container_isolated-3] 	velocity_smoother lifecycle node launched. 
+navigation  | [component_container_isolated-3] 	Waiting on external lifecycle transitions to activate
+navigation  | [component_container_isolated-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+navigation  | [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/panther/velocity_smoother' in container 'panther/nav2_container'
+navigation  | [pointcloud_to_laserscan_node-2] [INFO] [1778153443.101113668] [panther.pointcloud_to_laserscan]: Got a subscriber to laserscan, starting pointcloud subscriber
+navigation  | [component_container_isolated-3] [INFO] [1778153443.101563311] [panther.nav2_container]: Load Library: /opt/ros/jazzy/lib/libnav2_lifecycle_manager_core.so
+navigation  | [component_container_isolated-3] [INFO] [1778153443.102286187] [panther.nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.102298723] [panther.nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+navigation  | [component_container_isolated-3] [INFO] [1778153443.106319093] [panther.lifecycle_manager_navigation]: Creating
+navigation  | [component_container_isolated-3] [INFO] [1778153443.109560569] [panther.lifecycle_manager_navigation]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+navigation  | [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/panther/lifecycle_manager_navigation' in container 'panther/nav2_container'
+navigation  | [component_container_isolated-3] [INFO] [1778153443.112519179] [panther.lifecycle_manager_navigation]: [34m[1mStarting managed nodes bringup...[0m[0m
+navigation  | [component_container_isolated-3] [INFO] [1778153443.112561619] [panther.lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+navigation  | [component_container_isolated-3] [INFO] [1778153443.112705084] [panther.controller_server]: Configuring controller interface
+navigation  | [component_container_isolated-3] [INFO] [1778153443.112734687] [panther.controller_server]: getting progress checker plugins..
+navigation  | [component_container_isolated-3] [INFO] [1778153443.112882023] [panther.controller_server]: getting goal checker plugins..
+navigation  | [component_container_isolated-3] [INFO] [1778153443.113069708] [panther.controller_server]: Controller frequency set to 10.0000Hz
+navigation  | [component_container_isolated-3] [INFO] [1778153443.113103442] [panther.local_costmap.local_costmap]: Configuring
+navigation  | [component_container_isolated-3] [INFO] [1778153443.115711334] [panther.local_costmap.local_costmap]: Using plugin "stvl_layer"
+navigation  | [component_container_isolated-3] [INFO] [1778153443.131886790] [panther.local_costmap.local_costmap]: stvl_layer being initialized as SpatioTemporalVoxelLayer!
+navigation  | [component_container_isolated-3] [INFO] [1778153443.131921694] [panther.local_costmap.local_costmap]: stvl_layer's global frame is panther/odom.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.132834787] [panther.local_costmap.local_costmap]: stvl_layer loaded parameters from parameter server.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.134688880] [panther.local_costmap.local_costmap]: stvl_layer created underlying voxel grid.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.136122392] [panther.local_costmap.local_costmap]: Voxel filter activated.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.136966963] [panther.local_costmap.local_costmap]: stvl_layer initialization complete!
+navigation  | [component_container_isolated-3] [INFO] [1778153443.136989397] [panther.local_costmap.local_costmap]: Initialized plugin "stvl_layer"
+navigation  | [component_container_isolated-3] [INFO] [1778153443.136998872] [panther.local_costmap.local_costmap]: Using plugin "inflation_layer"
+navigation  | [component_container_isolated-3] [INFO] [1778153443.141782578] [panther.local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+navigation  | [component_container_isolated-3] [INFO] [1778153443.147726516] [panther.controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+navigation  | [component_container_isolated-3] [INFO] [1778153443.147916614] [panther.controller_server]: Controller Server has progress_checker  progress checkers available.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.148226849] [panther.controller_server]: Created goal checker : goal_checker of type nav2_controller::SimpleGoalChecker
+navigation  | [component_container_isolated-3] [INFO] [1778153443.148388434] [panther.controller_server]: Controller Server has goal_checker  goal checkers available.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.149400596] [panther.controller_server]: Created controller : FollowPath of type nav2_mppi_controller::MPPIController
+navigation  | [component_container_isolated-3] [INFO] [1778153443.150818277] [panther.controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+navigation  | [component_container_isolated-3] [INFO] [1778153443.152887295] [panther.controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.152917504] [panther.controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+navigation  | [component_container_isolated-3] [INFO] [1778153443.153670690] [panther.controller_server]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.153692881] [panther.controller_server]: Critic loaded : mppi::critics::CostCritic
+navigation  | [component_container_isolated-3] [INFO] [1778153443.153975310] [panther.controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.153991819] [panther.controller_server]: Critic loaded : mppi::critics::GoalCritic
+navigation  | [component_container_isolated-3] [INFO] [1778153443.154188281] [panther.controller_server]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.100000 angular threshold.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.154203214] [panther.controller_server]: Critic loaded : mppi::critics::GoalAngleCritic
+navigation  | [component_container_isolated-3] [INFO] [1778153443.154560813] [panther.controller_server]: ReferenceTrajectoryCritic instantiated with 1 power and 14.000000 weight
+navigation  | [component_container_isolated-3] [INFO] [1778153443.154573445] [panther.controller_server]: Critic loaded : mppi::critics::PathAlignCritic
+navigation  | [component_container_isolated-3] [INFO] [1778153443.154803274] [panther.controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+navigation  | [component_container_isolated-3] [INFO] [1778153443.155175270] [panther.controller_server]: PathAngleCritic instantiated with 1 power and 2.000000 weight. Mode set to: Forward Preference
+navigation  | [component_container_isolated-3] [INFO] [1778153443.155185798] [panther.controller_server]: Critic loaded : mppi::critics::PathAngleCritic
+navigation  | [component_container_isolated-3] [INFO] [1778153443.155397815] [panther.controller_server]: PreferForwardCritic instantiated with 1 power and 7.000000 weight.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.155405731] [panther.controller_server]: Critic loaded : mppi::critics::PreferForwardCritic
+navigation  | [component_container_isolated-3] [INFO] [1778153443.155872640] [panther.controller_server]: Optimizer reset
+navigation  | [component_container_isolated-3] [INFO] [1778153443.157403155] [MPPIController]: Configured MPPI Controller: FollowPath
+navigation  | [component_container_isolated-3] [INFO] [1778153443.157417292] [panther.controller_server]: Controller Server has FollowPath  controllers available.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.159692166] [panther.lifecycle_manager_navigation]: [34m[1mConfiguring smoother_server[0m[0m
+navigation  | [component_container_isolated-3] [INFO] [1778153443.159796584] [panther.smoother_server]: Configuring smoother server
+navigation  | [component_container_isolated-3] [INFO] [1778153443.163215413] [panther.smoother_server]: Created smoother : simple_smoother of type nav2_smoother::SimpleSmoother
+navigation  | [component_container_isolated-3] [INFO] [1778153443.163557230] [panther.smoother_server]: Smoother Server has simple_smoother  smoothers available.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.165369949] [panther.lifecycle_manager_navigation]: [34m[1mConfiguring planner_server[0m[0m
+navigation  | [component_container_isolated-3] [INFO] [1778153443.165443736] [panther.planner_server]: Configuring
+navigation  | [component_container_isolated-3] [INFO] [1778153443.165474896] [panther.global_costmap.global_costmap]: Configuring
+navigation  | [component_container_isolated-3] [INFO] [1778153443.168420862] [panther.global_costmap.global_costmap]: Using plugin "static_layer"
+navigation  | [component_container_isolated-3] [INFO] [1778153443.169173560] [panther.global_costmap.global_costmap]: Subscribing to the map topic (/panther/map) with transient local durability
+navigation  | [component_container_isolated-3] [INFO] [1778153443.169472782] [panther.global_costmap.global_costmap]: Initialized plugin "static_layer"
+navigation  | [component_container_isolated-3] [INFO] [1778153443.169489519] [panther.global_costmap.global_costmap]: Using plugin "stvl_layer"
+navigation  | [component_container_isolated-3] [INFO] [1778153443.169656825] [panther.global_costmap.global_costmap]: stvl_layer being initialized as SpatioTemporalVoxelLayer!
+navigation  | [component_container_isolated-3] [INFO] [1778153443.169671627] [panther.global_costmap.global_costmap]: stvl_layer's global frame is panther/map.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.170550790] [panther.global_costmap.global_costmap]: stvl_layer loaded parameters from parameter server.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.171101684] [panther.global_costmap.global_costmap]: stvl_layer created underlying voxel grid.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.172687199] [panther.global_costmap.global_costmap]: Voxel filter activated.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.173347145] [panther.global_costmap.global_costmap]: stvl_layer initialization complete!
+navigation  | [component_container_isolated-3] [INFO] [1778153443.173360939] [panther.global_costmap.global_costmap]: Initialized plugin "stvl_layer"
+navigation  | [component_container_isolated-3] [INFO] [1778153443.173365207] [panther.global_costmap.global_costmap]: Using plugin "inflation_layer"
+navigation  | [component_container_isolated-3] [INFO] [1778153443.175587232] [panther.global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+navigation  | [component_container_isolated-3] [INFO] [1778153443.184253250] [panther.planner_server]: Created global planner plugin GridBased of type nav2_smac_planner::SmacPlanner2D
+navigation  | [component_container_isolated-3] [INFO] [1778153443.184285666] [panther.planner_server]: Configuring GridBased of type SmacPlanner2D
+navigation  | [component_container_isolated-3] [INFO] [1778153443.186047886] [panther.planner_server]: Configured plugin GridBased of type SmacPlanner2D with tolerance 0.12, maximum iterations 600000, max on approach iterations 500, and allowing unknown traversal.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.186083668] [panther.planner_server]: Planner Server has GridBased  planners available.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.189442870] [panther.lifecycle_manager_navigation]: [34m[1mConfiguring behavior_server[0m[0m
+navigation  | [component_container_isolated-3] [INFO] [1778153443.189542943] [panther.behavior_server]: Configuring
+navigation  | [component_container_isolated-3] [INFO] [1778153443.191397923] [panther.behavior_server]: Creating behavior plugin spin of type nav2_behaviors::Spin
+navigation  | [component_container_isolated-3] [INFO] [1778153443.192120285] [panther.behavior_server]: Creating behavior plugin backup of type nav2_behaviors::BackUp
+navigation  | [component_container_isolated-3] [INFO] [1778153443.192691447] [panther.behavior_server]: Creating behavior plugin drive_on_heading of type nav2_behaviors::DriveOnHeading
+navigation  | [component_container_isolated-3] [INFO] [1778153443.193220941] [panther.behavior_server]: Creating behavior plugin wait of type nav2_behaviors::Wait
+navigation  | [component_container_isolated-3] [INFO] [1778153443.194224088] [panther.behavior_server]: Configuring spin
+navigation  | [component_container_isolated-3] [INFO] [1778153443.196715894] [panther.behavior_server]: Configuring backup
+navigation  | [component_container_isolated-3] [INFO] [1778153443.198067154] [panther.behavior_server]: Configuring drive_on_heading
+navigation  | [component_container_isolated-3] [INFO] [1778153443.199216320] [panther.behavior_server]: Configuring wait
+navigation  | [component_container_isolated-3] [INFO] [1778153443.200510387] [panther.lifecycle_manager_navigation]: [34m[1mConfiguring bt_navigator[0m[0m
+navigation  | [component_container_isolated-3] [INFO] [1778153443.200594532] [panther.bt_navigator]: Configuring
+navigation  | [component_container_isolated-3] [INFO] [1778153443.202455847] [panther.bt_navigator]: Creating navigator id navigate_to_pose of type nav2_bt_navigator::NavigateToPoseNavigator
+navigation  | [component_container_isolated-3] [WARN] [1778153443.204049888] [panther.bt_navigator]: Error_code parameters were not set. Using default values of: follow_path_error_code compute_path_error_code
+navigation  | [component_container_isolated-3] Make sure these match your BT and there are not other sources of error codes youreported to your application
+navigation  | [component_container_isolated-3] [INFO] [1778153443.236489879] [panther.bt_navigator]: Creating navigator id navigate_through_poses of type nav2_bt_navigator::NavigateThroughPosesNavigator
+navigation  | [component_container_isolated-3] [INFO] [1778153443.245523062] [panther.lifecycle_manager_navigation]: [34m[1mConfiguring waypoint_follower[0m[0m
+navigation  | [component_container_isolated-3] [INFO] [1778153443.245610424] [panther.waypoint_follower]: Configuring
+navigation  | [component_container_isolated-3] [INFO] [1778153443.252778235] [panther.waypoint_follower]: Created waypoint_task_executor : wait_at_waypoint of type nav2_waypoint_follower::WaitAtWaypoint
+navigation  | [component_container_isolated-3] [INFO] [1778153443.253296233] [panther.lifecycle_manager_navigation]: [34m[1mConfiguring velocity_smoother[0m[0m
+navigation  | [component_container_isolated-3] [INFO] [1778153443.253397855] [panther.velocity_smoother]: Configuring velocity smoother
+navigation  | [component_container_isolated-3] [INFO] [1778153443.254819482] [panther.lifecycle_manager_navigation]: [34m[1mActivating controller_server[0m[0m
+navigation  | [component_container_isolated-3] [INFO] [1778153443.254906530] [panther.controller_server]: Activating
+navigation  | [component_container_isolated-3] [INFO] [1778153443.254923160] [panther.local_costmap.local_costmap]: Activating
+navigation  | [component_container_isolated-3] [INFO] [1778153443.254929341] [panther.local_costmap.local_costmap]: Checking transform
+navigation  | [component_container_isolated-3] [INFO] [1778153443.254954028] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+gazebo      | [INFO] [robot_state_publisher-3]: process started with pid [96]
+gazebo      | [INFO] [create-4]: process started with pid [97]
+gazebo      | [INFO] [component_container-5]: process started with pid [99]
+gazebo      | [INFO] [lights_manager_node-6]: process started with pid [100]
+gazebo      | [INFO] [robot_state_publisher-7]: process started with pid [101]
+gazebo      | [INFO] [spawner-8]: process started with pid [102]
+gazebo      | [INFO] [parameter_bridge-12]: process started with pid [106]
+gazebo      | [INFO] [gazebo-1]: process started with pid [94]
+gazebo      | [INFO] [parameter_bridge-2]: process started with pid [95]
+gazebo      | [INFO] [ekf_node-9]: process started with pid [103]
+gazebo      | [INFO] [parameter_bridge-10]: process started with pid [104]
+gazebo      | [INFO] [parameter_bridge-11]: process started with pid [105]
+gazebo      | [INFO] [rviz2-13]: process started with pid [107]
+gazebo      | [create-4] [0m[INFO] [1778153443.299071949] [panther.ros_gz_sim]: Requesting list of world names.[0m
+gazebo      | [lights_manager_node-6] [0m[INFO] [1778153443.298527789] [panther.lights_manager]: Constructing node.[0m
+gazebo      | [robot_state_publisher-7] [0m[INFO] [1778153443.300488217] [panther.robot_state_publisher]: Robot initialized[0m
+gazebo      | [lights_manager_node-6] [0m[INFO] [1778153443.300239207] [panther.lights_manager]: Blackboard created.[0m
+gazebo      | [lights_manager_node-6] [0m[INFO] [1778153443.300974969] [panther.lights_manager]: Node constructed successfully.[0m
+gazebo      | [lights_manager_node-6] [0m[INFO] [1778153443.300997429] [panther.lights_manager]: Initializing.[0m
+gazebo      | [robot_state_publisher-3] [0m[INFO] [1778153443.307265411] [panther.robot_state_publisher]: Robot initialized[0m
+gazebo      | [lights_manager_node-6] [0m[INFO] [1778153443.309923486] [panther.lights_manager]: BehaviorTree registered from path '/ros2_ws/install/husarion_ugv_manager/share/husarion_ugv_manager/behavior_trees/LightsBT.btproj'[0m
+gazebo      | [lights_manager_node-6] [0m[INFO] [1778153443.315195568] [panther.lights_manager]: Node [SetErrorAnimation] created service client [lights/set_animation][0m
+gazebo      | [ekf_node-9] [WARN] [1778153443.317923398] [panther.ekf_filter]: use_control is set to true, but no deceleration_limits specified. Will use acceleration limits.
+gazebo      | [rviz2-13] QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-root'
+gazebo      | [ekf_node-9] [WARN] [1778153443.318325946] [panther.ekf_filter]: use_control is set to true, but no deceleration_gains specified. Will use acceleration gains.
+docking     | [INFO] [robot_state_publisher-1]: process started with pid [54]
+docking     | [INFO] [robot_state_publisher-2]: process started with pid [55]
+docking     | [INFO] [opennav_docking-3]: process started with pid [56]
+docking     | [INFO] [dock_pose_publisher-5]: process started with pid [58]
+docking     | [INFO] [apriltag_node-6]: process started with pid [59]
+docking     | [INFO] [docking_manager_node-7]: process started with pid [60]
+docking     | [INFO] [create-8]: process started with pid [61]
+docking     | [INFO] [create-9]: process started with pid [62]
+docking     | [INFO] [lifecycle_manager-4]: process started with pid [57]
+gazebo      | [component_container-5] [0m[INFO] [1778153443.359559667] [panther.lights_container]: Load Library: /ros2_ws/install/husarion_ugv_lights/lib/liblights_controller_node_component.so[0m
+gazebo      | [component_container-5] [0m[INFO] [1778153443.362073810] [panther.lights_container]: Found class: rclcpp_components::NodeFactoryTemplate<husarion_ugv_lights::LightsControllerNode>[0m
+gazebo      | [component_container-5] [0m[INFO] [1778153443.362115849] [panther.lights_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<husarion_ugv_lights::LightsControllerNode>[0m
+docking     | [robot_state_publisher-2] [0m[INFO] [1778153443.370972712] [backup_station_state_publisher]: Robot initialized[0m
+gazebo      | [component_container-5] [0m[INFO] [1778153443.383140442] [panther.lights_controller]: Initializing.[0m
+docking     | [create-8] [0m[INFO] [1778153443.386511923] [ros_gz_sim]: Requesting list of world names.[0m
+gazebo      | [component_container-5] [0m[INFO] [1778153443.391787433] [panther.lights_controller]: Loaded default animations.[0m
+gazebo      | [component_container-5] [0m[INFO] [1778153443.392138904] [panther.lights_controller]: Loaded user's animations.[0m
+docking     | [create-9] [0m[INFO] [1778153443.392773951] [ros_gz_sim]: Requesting list of world names.[0m
+docking     | [opennav_docking-3] [0m[INFO] [1778153443.393750227] [panther.docking_server]: 
+docking     | [opennav_docking-3] 	docking_server lifecycle node launched. 
+docking     | [opennav_docking-3] 	Waiting on external lifecycle transitions to activate
+docking     | [opennav_docking-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.[0m
+docking     | [opennav_docking-3] [0m[INFO] [1778153443.394098811] [panther.docking_server]: Creating docking_server[0m
+gazebo      | [component_container-5] [0m[INFO] [1778153443.395082794] [panther.lights_controller]: Initialized successfully.[0m
+gazebo      | [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/panther/lights_controller' in container '/panther/lights_container'
+docking     | [docking_manager_node-7] [0m[INFO] [1778153443.398992359] [panther.docking_manager]: Constructing node.[0m
+docking     | [docking_manager_node-7] [0m[INFO] [1778153443.399548833] [panther.docking_manager]: Node constructed successfully.[0m
+docking     | [docking_manager_node-7] [0m[INFO] [1778153443.399578938] [panther.docking_manager]: Initializing.[0m
+docking     | [lifecycle_manager-4] [INFO] [1778153443.402742751] [panther.nav2_docking_lifecycle_manager]: Creating
+docking     | [lifecycle_manager-4] [INFO] [1778153443.410047723] [panther.nav2_docking_lifecycle_manager]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+gazebo      | [lights_manager_node-6] [0m[INFO] [1778153443.410082639] [BehaviorTreeManager]: Groot2 publisher started on port 5555[0m
+docking     | [robot_state_publisher-1] [0m[INFO] [1778153443.411983582] [main_station_state_publisher]: Robot initialized[0m
+gazebo      | [lights_manager_node-6] [0m[INFO] [1778153443.414501198] [panther.lights_manager]: Initialized successfully.[0m
+gazebo      | [rviz2-13] MESA: error: Failed to query drm device.
+gazebo      | [rviz2-13] glx: failed to create dri3 screen
+gazebo      | [rviz2-13] failed to load driver: iris
+gazebo      | [rviz2-13] failed to open /dev/dri/card1: No such file or directory
+gazebo      | [rviz2-13] failed to load driver: iris
+docking     | [docking_manager_node-7] [0m[INFO] [1778153443.428747753] [panther.docking_manager]: BehaviorTree registered from path '/ros2_ws/install/husarion_ugv_docking/share/husarion_ugv_docking/behavior_trees/docking.xml'[0m
+docking     | [docking_manager_node-7] [0m[INFO] [1778153443.430528381] [panther.docking_manager]: Node [Check Joy Docking Request] created Subscriber to topic [joy][0m
+docking     | [lifecycle_manager-4] [INFO] [1778153443.434882086] [panther.nav2_docking_lifecycle_manager]: [34m[1mStarting managed nodes bringup...[0m[0m
+docking     | [lifecycle_manager-4] [INFO] [1778153443.434929828] [panther.nav2_docking_lifecycle_manager]: [34m[1mConfiguring docking_server[0m[0m
+docking     | [opennav_docking-3] [0m[INFO] [1778153443.435228278] [panther.docking_server]: Configuring docking_server[0m
+docking     | [opennav_docking-3] [0m[INFO] [1778153443.435347526] [panther.docking_server]: Controller frequency set to 50.0000Hz[0m
+docking     | [opennav_docking-3] [0m[INFO] [1778153443.468825508] [panther.docking_server]: Created charging dock plugin charging_dock of type husarion_ugv_docking::ChargingDock[0m
+docking     | [opennav_docking-3] [0m[INFO] [1778153443.470617965] [ChargingDock]: Wibotic info is disabled.[0m
+docking     | [opennav_docking-3] [0m[INFO] [1778153443.471192592] [panther.docking_server]: Loading docks from parameter file.[0m
+docking     | [opennav_docking-3] [0m[INFO] [1778153443.473131706] [panther.docking_server]: Docking Server has 1 dock types and 2 dock instances available.[0m
+docking     | [lifecycle_manager-4] [INFO] [1778153443.474399481] [panther.nav2_docking_lifecycle_manager]: [34m[1mActivating docking_server[0m[0m
+docking     | [opennav_docking-3] [0m[INFO] [1778153443.474604149] [panther.docking_server]: Activating docking_server[0m
+docking     | [opennav_docking-3] [0m[INFO] [1778153443.484231296] [panther.docking_server]: Creating bond (docking_server) to lifecycle manager.[0m
+gazebo      | [rviz2-13] error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+docking     | [docking_manager_node-7] [0m[INFO] [1778153443.550077082] [BehaviorTreeManager]: Groot2 publisher started on port 4444[0m
+docking     | [dock_pose_publisher-5] [0m[INFO] [1778153443.564784511] [panther.dock_pose_publisher]: Adding dock main with frame main_wibotic_transmitter_link[0m
+docking     | [dock_pose_publisher-5] [0m[INFO] [1778153443.565347525] [panther.dock_pose_publisher]: Adding dock backup with frame backup_wibotic_transmitter_link[0m
+docking     | [lifecycle_manager-4] [INFO] [1778153443.587242485] [panther.nav2_docking_lifecycle_manager]: Server docking_server connected with bond.
+docking     | [lifecycle_manager-4] [INFO] [1778153443.587288652] [panther.nav2_docking_lifecycle_manager]: [34m[1mManaged nodes are active[0m[0m
+docking     | [lifecycle_manager-4] [INFO] [1778153443.587304124] [panther.nav2_docking_lifecycle_manager]: [34m[1mCreating bond timer...[0m[0m
+gazebo      | [gazebo-1] QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-root'
+gazebo      | [spawner-8] [0m[INFO] [1778153443.595119256] [panther.spawner_joint_state_broadcaster]: waiting for service /panther/controller_manager/list_controllers to become available...[0m
+gazebo      | [gazebo-1] MESA: error: Failed to query drm device.
+gazebo      | [gazebo-1] glx: failed to create dri3 screen
+gazebo      | [gazebo-1] failed to load driver: iris
+gazebo      | [gazebo-1] failed to open /dev/dri/card1: No such file or directory
+gazebo      | [gazebo-1] failed to load driver: iris
+gazebo      | [gazebo-1] error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+navigation  | [component_container_isolated-3] [INFO] [1778153443.755017810] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+docking     | [create-9] [0m[INFO] [1778153443.928747292] [ros_gz_sim]: Waiting messages on topic [backup_station_description].[0m
+docking     | [create-8] [0m[INFO] [1778153444.030595740] [ros_gz_sim]: Waiting messages on topic [main_station_description].[0m
+docking     | [create-8] [0m[INFO] [1778153444.128425720] [ros_gz_sim]: Entity creation successful.[0m
+docking     | [create-9] [0m[INFO] [1778153444.128437850] [ros_gz_sim]: Entity creation successful.[0m
+gazebo      | [create-4] [0m[INFO] [1778153444.133438402] [panther.ros_gz_sim]: Waiting messages on topic [robot_description].[0m
+gazebo      | [create-4] [0m[INFO] [1778153444.137712452] [panther.ros_gz_sim]: Entity creation successful.[0m
+navigation  | [component_container_isolated-3] [INFO] [1778153444.255052834] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+gazebo      | [parameter_bridge-12] [0m[INFO] [1778153444.321839629] [panther.gz_bridge]: Creating GZ->ROS Bridge: [/model/panther/battery/panther/battery/state (gz.msgs.BatteryState) -> /panther/battery/battery_status (sensor_msgs/msg/BatteryState)] (Lazy 0)[0m
+gazebo      | [parameter_bridge-11] [INFO] [1778153444.329890934] [panther.camera_CAM01_gz_bridge]: Creating GZ->ROS Bridge: [/panther/camera/color/camera_info (gz.msgs.CameraInfo) -> /panther/camera/color/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 1)
+gazebo      | [parameter_bridge-12] [0m[INFO] [1778153444.330790295] [panther.gz_bridge]: Creating GZ->ROS Bridge: [/panther/cmd_vel (gz.msgs.Twist) -> /panther/cmd_vel (geometry_msgs/msg/TwistStamped)] (Lazy 0)[0m
+gazebo      | [parameter_bridge-12] [0m[INFO] [1778153444.335026327] [panther.gz_bridge]: Creating ROS->GZ Bridge: [/panther/lights/channel_1_frame (sensor_msgs/msg/Image) -> /panther/lights/channel_1_frame (gz.msgs.Image)] (Lazy 0)[0m
+gazebo      | [parameter_bridge-11] [INFO] [1778153444.334219777] [panther.camera_CAM01_gz_bridge]: Creating GZ->ROS Bridge: [/panther/camera/color/image_raw (gz.msgs.Image) -> /panther/camera/color/image_raw (sensor_msgs/msg/Image)] (Lazy 1)
+gazebo      | [parameter_bridge-11] [INFO] [1778153444.335684818] [panther.camera_CAM01_gz_bridge]: Creating GZ->ROS Bridge: [/panther/camera/depth/camera_info (gz.msgs.CameraInfo) -> /panther/camera/depth/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 1)
+gazebo      | [parameter_bridge-11] [INFO] [1778153444.336726168] [panther.camera_CAM01_gz_bridge]: Creating GZ->ROS Bridge: [/panther/camera/depth/image_raw (gz.msgs.Image) -> /panther/camera/depth/image_raw (sensor_msgs/msg/Image)] (Lazy 1)
+gazebo      | [parameter_bridge-12] [0m[INFO] [1778153444.337846286] [panther.gz_bridge]: Creating ROS->GZ Bridge: [/panther/lights/channel_2_frame (sensor_msgs/msg/Image) -> /panther/lights/channel_2_frame (gz.msgs.Image)] (Lazy 0)[0m
+gazebo      | [parameter_bridge-11] [INFO] [1778153444.338686707] [panther.camera_CAM01_gz_bridge]: Creating GZ->ROS Bridge: [/panther/camera/depth/image_raw/points (gz.msgs.PointCloudPacked) -> /panther/camera/depth/points (sensor_msgs/msg/PointCloud2)] (Lazy 1)
+docking     | [INFO] [create-9]: process has finished cleanly [pid 62]
+docking     | [INFO] [create-8]: process has finished cleanly [pid 61]
+gazebo      | [INFO] [create-4]: process has finished cleanly [pid 97]
+gazebo      | [parameter_bridge-12] [0m[INFO] [1778153444.355528879] [panther.gz_bridge]: Passing message from ROS sensor_msgs/msg/Image to Gazebo gz.msgs.Image (showing msg only once per type)[0m
+gazebo      | [parameter_bridge-10] [INFO] [1778153444.369288837] [panther.LDR20_gz_bridge]: Creating GZ->ROS Bridge: [/panther/velodyne_points/points (gz.msgs.PointCloudPacked) -> /panther/velodyne_points (sensor_msgs/msg/PointCloud2)] (Lazy 1)
+gazebo      | [parameter_bridge-2] [INFO] [1778153444.371262378] [gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+navigation  | [component_container_isolated-3] [INFO] [1778153444.755063552] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153445.255192975] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+gazebo      | [gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="panther"]/link[@name="base_link"]/sensor[@name="panther/camera_orbbec_astra_color"]/gz_frame_id:<urdf-string>:L0]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+gazebo      | [gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="panther"]/link[@name="base_link"]/sensor[@name="panther/camera_orbbec_astra_depth"]/gz_frame_id:<urdf-string>:L0]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+gazebo      | [gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="panther"]/link[@name="base_link"]/sensor[@name="panther/camera_orbbec_astra_depth"]/depth_camera:<urdf-string>:L0]: XML Element[depth_camera], child of element[sensor], not defined in SDF. Copying[depth_camera] as children of [sensor].
+gazebo      | [gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="panther"]/link[@name="base_link"]/sensor[@name="panther/velodyne_puck_sensor"]/gz_frame_id:<urdf-string>:L0]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+gazebo      | [gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="panther"]/link[@name="base_link"]/sensor[@name="panther/imu"]/gz_frame_id:<urdf-string>:L0]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+gazebo      | [gazebo-1] [INFO] [1778153445.669015913] [panther.gz_ros_control]: Loading controller_manager
+gazebo      | [gazebo-1] [INFO] [1778153445.686144354] [panther.controller_manager]: Using ROS clock for triggering controller manager cycles.
+gazebo      | [gazebo-1] [INFO] [1778153445.689090317] [panther.controller_manager]: Subscribing to '/panther/robot_description' topic for robot description.
+gazebo      | [gazebo-1] [WARN] [1778153445.690875822] [panther.gz_ros_control]: Waiting RM to load and initialize hardware...
+gazebo      | [gazebo-1] [INFO] [1778153445.691515867] [panther.controller_manager]: Received robot description from topic.
+gazebo      | [gazebo-1] [INFO] [1778153445.697739624] [panther.gz_ros_control]: The position_proportional_gain has been set to: 0.1
+gazebo      | [gazebo-1] [INFO] [1778153445.697806478] [panther.gz_ros_control]: Loading joint: fl_wheel_joint
+gazebo      | [gazebo-1] [INFO] [1778153445.697810851] [panther.gz_ros_control]: 	State:
+gazebo      | [gazebo-1] [INFO] [1778153445.697814062] [panther.gz_ros_control]: 		 position
+gazebo      | [gazebo-1] [INFO] [1778153445.697820095] [panther.gz_ros_control]: 		 velocity
+gazebo      | [gazebo-1] [INFO] [1778153445.697826207] [panther.gz_ros_control]: 		 effort
+gazebo      | [gazebo-1] [INFO] [1778153445.697829675] [panther.gz_ros_control]: 	Command:
+gazebo      | [gazebo-1] [INFO] [1778153445.697832601] [panther.gz_ros_control]: 		 velocity
+gazebo      | [gazebo-1] [INFO] [1778153445.697842198] [panther.gz_ros_control]: Loading joint: fr_wheel_joint
+gazebo      | [gazebo-1] [INFO] [1778153445.697845065] [panther.gz_ros_control]: 	State:
+gazebo      | [gazebo-1] [INFO] [1778153445.697847791] [panther.gz_ros_control]: 		 position
+gazebo      | [gazebo-1] [INFO] [1778153445.697850658] [panther.gz_ros_control]: 		 velocity
+gazebo      | [gazebo-1] [INFO] [1778153445.697854044] [panther.gz_ros_control]: 		 effort
+gazebo      | [gazebo-1] [INFO] [1778153445.697856872] [panther.gz_ros_control]: 	Command:
+gazebo      | [gazebo-1] [INFO] [1778153445.697859773] [panther.gz_ros_control]: 		 velocity
+gazebo      | [gazebo-1] [INFO] [1778153445.697866662] [panther.gz_ros_control]: Loading joint: rl_wheel_joint
+gazebo      | [gazebo-1] [INFO] [1778153445.697869403] [panther.gz_ros_control]: 	State:
+gazebo      | [gazebo-1] [INFO] [1778153445.697872088] [panther.gz_ros_control]: 		 position
+gazebo      | [gazebo-1] [INFO] [1778153445.697874706] [panther.gz_ros_control]: 		 velocity
+gazebo      | [gazebo-1] [INFO] [1778153445.697877434] [panther.gz_ros_control]: 		 effort
+gazebo      | [gazebo-1] [INFO] [1778153445.697880927] [panther.gz_ros_control]: 	Command:
+gazebo      | [gazebo-1] [INFO] [1778153445.697883652] [panther.gz_ros_control]: 		 velocity
+gazebo      | [gazebo-1] [INFO] [1778153445.697890061] [panther.gz_ros_control]: Loading joint: rr_wheel_joint
+gazebo      | [gazebo-1] [INFO] [1778153445.697892825] [panther.gz_ros_control]: 	State:
+gazebo      | [gazebo-1] [INFO] [1778153445.697895555] [panther.gz_ros_control]: 		 position
+gazebo      | [gazebo-1] [INFO] [1778153445.697898150] [panther.gz_ros_control]: 		 velocity
+gazebo      | [gazebo-1] [INFO] [1778153445.697900889] [panther.gz_ros_control]: 		 effort
+gazebo      | [gazebo-1] [INFO] [1778153445.697903603] [panther.gz_ros_control]: 	Command:
+gazebo      | [gazebo-1] [INFO] [1778153445.697906206] [panther.gz_ros_control]: 		 velocity
+gazebo      | [gazebo-1] [INFO] [1778153445.697940469] [panther.gz_ros_control]: Loading sensor: panther/imu
+gazebo      | [gazebo-1] [INFO] [1778153445.697945268] [panther.gz_ros_control]: 	State:
+gazebo      | [gazebo-1] [INFO] [1778153445.697955911] [panther.gz_ros_control]: 		 orientation.x
+gazebo      | [gazebo-1] [INFO] [1778153445.697962747] [panther.gz_ros_control]: 		 orientation.y
+gazebo      | [gazebo-1] [INFO] [1778153445.697965528] [panther.gz_ros_control]: 		 orientation.z
+gazebo      | [gazebo-1] [INFO] [1778153445.697968328] [panther.gz_ros_control]: 		 orientation.w
+gazebo      | [gazebo-1] [INFO] [1778153445.697971227] [panther.gz_ros_control]: 		 angular_velocity.x
+gazebo      | [gazebo-1] [INFO] [1778153445.697975359] [panther.gz_ros_control]: 		 angular_velocity.y
+gazebo      | [gazebo-1] [INFO] [1778153445.697978483] [panther.gz_ros_control]: 		 angular_velocity.z
+gazebo      | [gazebo-1] [INFO] [1778153445.697981376] [panther.gz_ros_control]: 		 linear_acceleration.x
+gazebo      | [gazebo-1] [INFO] [1778153445.697984180] [panther.gz_ros_control]: 		 linear_acceleration.y
+gazebo      | [gazebo-1] [INFO] [1778153445.697986976] [panther.gz_ros_control]: 		 linear_acceleration.z
+gazebo      | [gazebo-1] [INFO] [1778153445.698010774] [panther.gz_ros_control.resource_manager]: Initialize hardware 'panther/panther_system' 
+gazebo      | [gazebo-1] [INFO] [1778153445.698084532] [panther.gz_ros_control.resource_manager]: Successful initialization of hardware 'panther/panther_system'
+gazebo      | [gazebo-1] [INFO] [1778153445.698196984] [resource_manager]: 'configure' hardware 'panther/panther_system' 
+gazebo      | [gazebo-1] [INFO] [1778153445.700015116] [resource_manager]: Successful 'configure' of hardware 'panther/panther_system'
+gazebo      | [gazebo-1] [INFO] [1778153445.700036986] [resource_manager]: 'activate' hardware 'panther/panther_system' 
+gazebo      | [gazebo-1] [INFO] [1778153445.700070935] [resource_manager]: Successful 'activate' of hardware 'panther/panther_system'
+gazebo      | [gazebo-1] [INFO] [1778153445.700146172] [panther.controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+navigation  | [component_container_isolated-3] [INFO] [1778153445.755018809] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+gazebo      | [gazebo-1] [INFO] [1778153445.848813748] [panther.controller_manager]: Loading controller : 'joint_state_broadcaster' of type 'joint_state_broadcaster/JointStateBroadcaster'
+gazebo      | [gazebo-1] [INFO] [1778153445.848894093] [panther.controller_manager]: Loading controller 'joint_state_broadcaster'
+gazebo      | [gazebo-1] [WARN] [1778153445.853282568] [panther.controller_manager]: The use of remapping arguments to the controller_manager node is deprecated. Please use the '--controller-ros-args' argument of the spawner to pass remapping arguments to the controller node.
+gazebo      | [gazebo-1] [INFO] [1778153445.853324448] [panther.controller_manager]: Controller 'joint_state_broadcaster' node arguments: --ros-args --params-file /tmp/tmp91abxbwx --ros-args --remap drive_controller/cmd_vel:=cmd_vel --remap drive_controller/odom:=odometry/wheels --remap drive_controller/transition_event:=drive_controller/_transition_event --remap imu_broadcaster/imu:=imu/data --remap imu_broadcaster/transition_event:=imu_broadcaster/_transition_event --remap joint_state_broadcaster/transition_event:=joint_state_broadcaster/_transition_event -p use_sim_time:=true --param use_sim_time:=true 
+gazebo      | [spawner-8] [0m[INFO] [1778153445.873780412] [panther.spawner_joint_state_broadcaster]: [94mLoaded [1mjoint_state_broadcaster[0m[0m
+gazebo      | [gazebo-1] [INFO] [1778153445.874922416] [panther.controller_manager]: Configuring controller: 'joint_state_broadcaster'
+gazebo      | [gazebo-1] [INFO] [1778153445.875053469] [panther.joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+gazebo      | [gazebo-1] [INFO] [1778153445.881555627] [panther.controller_manager]: Loading controller : 'drive_controller' of type 'diff_drive_controller/DiffDriveController'
+gazebo      | [gazebo-1] [INFO] [1778153445.881588800] [panther.controller_manager]: Loading controller 'drive_controller'
+gazebo      | [gazebo-1] [WARN] [1778153445.886170624] [panther.controller_manager]: The use of remapping arguments to the controller_manager node is deprecated. Please use the '--controller-ros-args' argument of the spawner to pass remapping arguments to the controller node.
+gazebo      | [gazebo-1] [INFO] [1778153445.886218037] [panther.controller_manager]: Controller 'drive_controller' node arguments: --ros-args --params-file /tmp/tmp91abxbwx --ros-args --remap drive_controller/cmd_vel:=cmd_vel --remap drive_controller/odom:=odometry/wheels --remap drive_controller/transition_event:=drive_controller/_transition_event --remap imu_broadcaster/imu:=imu/data --remap imu_broadcaster/transition_event:=imu_broadcaster/_transition_event --remap joint_state_broadcaster/transition_event:=joint_state_broadcaster/_transition_event -p use_sim_time:=true --param use_sim_time:=true 
+gazebo      | [spawner-8] [0m[INFO] [1778153445.906827000] [panther.spawner_joint_state_broadcaster]: [94mLoaded [1mdrive_controller[0m[0m
+gazebo      | [gazebo-1] [INFO] [1778153445.907071145] [panther.controller_manager]: Configuring controller: 'drive_controller'
+gazebo      | [gazebo-1] [INFO] [1778153445.911823057] [panther.controller_manager]: Loading controller : 'imu_broadcaster' of type 'imu_sensor_broadcaster/IMUSensorBroadcaster'
+gazebo      | [gazebo-1] [INFO] [1778153445.911848470] [panther.controller_manager]: Loading controller 'imu_broadcaster'
+gazebo      | [gazebo-1] [WARN] [1778153445.913427386] [panther.controller_manager]: The use of remapping arguments to the controller_manager node is deprecated. Please use the '--controller-ros-args' argument of the spawner to pass remapping arguments to the controller node.
+gazebo      | [gazebo-1] [INFO] [1778153445.913456435] [panther.controller_manager]: Controller 'imu_broadcaster' node arguments: --ros-args --params-file /tmp/tmp91abxbwx --ros-args --remap drive_controller/cmd_vel:=cmd_vel --remap drive_controller/odom:=odometry/wheels --remap drive_controller/transition_event:=drive_controller/_transition_event --remap imu_broadcaster/imu:=imu/data --remap imu_broadcaster/transition_event:=imu_broadcaster/_transition_event --remap joint_state_broadcaster/transition_event:=joint_state_broadcaster/_transition_event -p use_sim_time:=true --param use_sim_time:=true 
+gazebo      | [spawner-8] [0m[INFO] [1778153445.926094024] [panther.spawner_joint_state_broadcaster]: [94mLoaded [1mimu_broadcaster[0m[0m
+gazebo      | [gazebo-1] [INFO] [1778153445.926385597] [panther.controller_manager]: Configuring controller: 'imu_broadcaster'
+gazebo      | [gazebo-1] [INFO] [1778153445.928590782] [panther.controller_manager]: Activating controllers: [ joint_state_broadcaster drive_controller imu_broadcaster ]
+navigation  | [component_container_isolated-3] [INFO] [1778153446.255149898] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153446.755020383] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153447.255040784] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+gazebo      | [gazebo-1] [WARN] [1778153447.727048641] [panther.gz_ros_control]:  Desired controller update period (0.01 s) is slower than the gazebo simulation period (0.001 s).
+navigation  | [component_container_isolated-3] [INFO] [1778153447.755046287] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+gazebo      | [gazebo-1] MESA: error: Failed to query drm device.
+gazebo      | [gazebo-1] glx: failed to create dri3 screen
+gazebo      | [gazebo-1] failed to load driver: iris
+gazebo      | [gazebo-1] failed to open /dev/dri/card1: No such file or directory
+gazebo      | [gazebo-1] failed to load driver: iris
+gazebo      | [gazebo-1] error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+navigation  | [component_container_isolated-3] [INFO] [1778153448.255041432] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153448.755066814] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153449.255151368] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153449.755035411] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153450.255070095] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153450.755060139] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+gazebo      | [gazebo-1] [ERROR] [1778153450.929089419] [panther.controller_manager]: Switch controller timed out after 5 seconds!
+gazebo      | [spawner-8] [31m[ERROR] [1778153450.932187777] [panther.spawner_joint_state_broadcaster]: [91mFailed to activate the parsed controllers list : ['joint_state_broadcaster', 'drive_controller', 'imu_broadcaster'][0m[0m
+gazebo      | [ERROR] [spawner-8]: process has died [pid 102, exit code 1, cmd '/opt/ros/jazzy/lib/controller_manager/spawner joint_state_broadcaster drive_controller imu_broadcaster --activate-as-group --controller-manager controller_manager --controller-manager-timeout 10 --ros-args --log-level INFO --log-level rcl:=INFO --ros-args -r __ns:=/panther -p use_sim_time:=True -p use_sim_time:=True -p use_sim_time:=True'].
+navigation  | [component_container_isolated-3] [INFO] [1778153451.255175967] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153451.755025534] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153452.255057629] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153452.755147744] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153453.255009693] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153453.755020931] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153454.255017066] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153454.755020318] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153455.255021293] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153455.755024173] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153456.255053893] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153456.755040081] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153457.255018533] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153457.755013140] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [map_saver_server-4] [INFO] [1778153457.794367749] [panther.map_saver]: Saving map from '/panther/map' topic to '/maps/map' file
+navigation  | [component_container_isolated-3] [INFO] [1778153458.255140757] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153458.755056035] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153459.255038028] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153459.755040380] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [map_saver_server-4] [ERROR] [1778153459.795567159] [panther.map_saver]: Failed to spin map subscription
+navigation  | [component_container_isolated-3] [INFO] [1778153460.255052450] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153460.755019934] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153461.255048665] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153461.755053294] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153462.255072853] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153462.755058828] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153463.255064610] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153463.755050054] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153464.255029167] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153464.755051642] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153465.255145160] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153465.755061943] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153466.255131881] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153466.755059790] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153467.255031179] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153467.755036063] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153468.255049881] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153468.755039042] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153469.255040898] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153469.755149425] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153470.255043427] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153470.755016596] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153471.255175949] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153471.755173405] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153472.255060337] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153472.755138200] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [map_saver_server-4] [INFO] [1778153472.794368620] [panther.map_saver]: Saving map from '/panther/map' topic to '/maps/map' file
+navigation  | [component_container_isolated-3] [INFO] [1778153473.255016718] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153473.755034690] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153474.255016225] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153474.755125302] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [map_saver_server-4] [ERROR] [1778153474.795817864] [panther.map_saver]: Failed to spin map subscription
+navigation  | [component_container_isolated-3] [INFO] [1778153475.255038254] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153475.755155045] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153476.255181634] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153476.755153663] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153477.255098559] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153477.755053704] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153478.255035889] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153478.755032002] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153479.255058527] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153479.755017418] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153480.255019015] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153480.755053798] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153481.255042353] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153481.755071439] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153482.255070780] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153482.755020679] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153483.255043664] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153483.755031890] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153484.255016617] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153484.755054149] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153485.255028005] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153485.755023750] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153486.255046063] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153486.755031122] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153487.255033160] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153487.755046369] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [map_saver_server-4] [INFO] [1778153487.794275148] [panther.map_saver]: Saving map from '/panther/map' topic to '/maps/map' file
+navigation  | [component_container_isolated-3] [INFO] [1778153488.255055673] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153488.755037167] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153489.255013876] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153489.755014913] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [map_saver_server-4] [ERROR] [1778153489.796092873] [panther.map_saver]: Failed to spin map subscription
+navigation  | [component_container_isolated-3] [INFO] [1778153490.255041297] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153490.755014976] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153491.255201459] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153491.755039252] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153492.255046679] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153492.755015973] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153493.255046878] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153493.755018424] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153494.255050950] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153494.755057586] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153495.255012952] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153495.755042546] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153496.255046037] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153496.755133179] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153497.255147194] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153497.755093459] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153498.255103790] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153498.755217129] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153499.255104747] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153499.755035170] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153500.255125267] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153500.755094810] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153501.255081401] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153501.755142833] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153502.255138088] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153502.755036994] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [map_saver_server-4] [INFO] [1778153502.794251560] [panther.map_saver]: Saving map from '/panther/map' topic to '/maps/map' file
+navigation  | [component_container_isolated-3] [INFO] [1778153503.255023934] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153503.755121731] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153504.255121305] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153504.755129088] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [map_saver_server-4] [ERROR] [1778153504.795187251] [panther.map_saver]: Failed to spin map subscription
+navigation  | [component_container_isolated-3] [INFO] [1778153505.255128097] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153505.755036014] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153506.255147455] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153506.755046197] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153507.255029513] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153507.755145019] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153508.255254836] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153508.755098846] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153509.255059038] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153509.755201192] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153510.255049727] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153510.755147389] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153511.255153657] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153511.755210439] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153512.255031870] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153512.755045975] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153513.255142460] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153513.755026592] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153514.255040184] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153514.755009779] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153515.255008302] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153515.755015092] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153516.255035689] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153516.755051636] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153517.255011078] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153517.755046011] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [map_saver_server-4] [INFO] [1778153517.794221963] [panther.map_saver]: Saving map from '/panther/map' topic to '/maps/map' file
+navigation  | [component_container_isolated-3] [INFO] [1778153518.255019925] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153518.755050232] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153519.255072661] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153519.755041235] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [map_saver_server-4] [ERROR] [1778153519.795033494] [panther.map_saver]: Failed to spin map subscription
+navigation  | [component_container_isolated-3] [INFO] [1778153520.255031420] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153520.755055989] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153521.255029471] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153521.755145818] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153522.255047466] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+navigation  | [component_container_isolated-3] [INFO] [1778153522.755118435] [panther.local_costmap.local_costmap]: Timed out waiting for transform from panther/base_link to panther/odom to become available, tf error: Invalid frame ID "panther/odom" passed to canTransform argument target_frame - frame does not exist
+Gracefully Stopping... press Ctrl+C again to force
+[K Container gazebo  [32mStopping[0m
+[K Container docking  [32mStopping[0m
+[K Container navigation  [32mStopping[0m
+[K Container docking  [32mStopped[0m
+[K Container navigation  [32mStopped[0m
+[Kdocking exited with code 137
+[Knavigation exited with code 137
+[K Container gazebo  [32mStopped[0m

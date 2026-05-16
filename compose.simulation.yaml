@@ -1,0 +1,67 @@
+x-common-config:
+  &common-config
+  network_mode: host
+  ipc: host
+  env_file: .env
+
+services:
+  gazebo:
+    image: husarion/husarion-ugv-gazebo:jazzy-2.3.1-20250701
+    container_name: gazebo
+    <<: *common-config
+    runtime: nvidia
+    environment:
+      - DISPLAY
+      - XDG_RUNTIME_DIR=/tmp
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility,display
+      - CYCLONE_DDS_URI=
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./config:/config
+    command: >
+      ros2 launch husarion_ugv_gazebo simulation.launch.py
+        components_config_path:=/config/components.yaml
+        namespace:=panther
+        robot_model:=${ROBOT_MODEL:-panther}
+        rviz_config:=/config/nav2.rviz
+
+  docking:
+    image: husarion/husarion-ugv-autonomy:jazzy-0.1.2-20250902
+    container_name: docking
+    <<: *common-config
+    environment:
+      - CYCLONE_DDS_URI=
+    volumes:
+      - ./config:/config
+    command: >
+      ros2 launch husarion_ugv_docking docking.launch.py
+        apriltag_output_dir:=/config/apriltags
+        apriltag_size:=0.08
+        camera_image_topic:=${CAMERA_IMAGE_TOPIC:-/panther/camera/color/image_raw}
+        camera_info_topic:=${CAMERA_INFO_TOPIC:-/panther/camera/color/camera_info}
+        docking_server_config_path:=/config/docking_server.yaml
+        namespace:=panther
+        use_sim:=True
+        use_wibotic_info:=False
+
+  navigation:
+    image: husarion/husarion-ugv-autonomy:jazzy-0.1.2-20250902
+    container_name: navigation
+    <<: *common-config
+    environment:
+      - CYCLONE_DDS_URI=
+    volumes:
+      - ./config:/config
+      - ./maps:/maps
+    command: >
+      ros2 launch husarion_ugv_navigation bringup_launch.py
+        namespace:=panther
+        observation_topic:=/panther/ouster/points
+        observation_topic_type:=pointcloud
+        params_file:=/config/nav2_params.yaml
+        robot_model:=${ROBOT_MODEL:-panther}
+        slam:=${SLAM:-True}
+        use_sim_time:=True
