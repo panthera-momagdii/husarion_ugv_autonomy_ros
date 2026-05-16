@@ -1,0 +1,19 @@
+---
+# Drop-in override of husarion_components_description's
+# gz_ouster_os_remappings.yaml. Adds publisher_queue_size: 1 and
+# subscriber_queue_size: 1 so the gz-to-ROS lidar bridge keeps only the
+# latest scan in flight. Without this, the gazebo lidar plugin generates
+# 20 Hz scans (per the URDF update_rate) while the bridge can only
+# publish at ~10 Hz wall — the difference accumulates in the bridge's
+# internal queue and the timestamps drift behind /clock by tens of
+# seconds, eventually crashing GLIM's CT-ICP sliding window.
+# With queue_size=1, stale messages are dropped instead of queued and
+# GLIM stays in sync with the rest of the sim.
+  - ros_topic_name: <robot_namespace><device_namespace>/ouster/points
+    gz_topic_name: <robot_namespace><device_namespace>/ouster/points/points
+    ros_type_name: sensor_msgs/msg/PointCloud2
+    gz_type_name: gz.msgs.PointCloudPacked
+    lazy: true
+    direction: GZ_TO_ROS
+    publisher_queue_size: 1
+    subscriber_queue_size: 1

@@ -76,6 +76,103 @@ start-simulation:
     echo "[start-simulation] streaming logs (Ctrl-C to stop containers stay up; run 'docker compose -f compose.simulation.yaml down' to stop)"
     docker compose -f compose.simulation.yaml logs -f
 
+# Start Gazebo + GLIM SLAM + STVL-only Nav2 (see GLIM_STVL_NAV2_INTEGRATION.md)
+start-simulation-glim:
+    #!/bin/bash
+    # Note: NO `set -e`. Four containers under load means transient
+    # docker-exec / ros2 service-call returns (DDS races, slow controllers,
+    # daemon-killed exec sessions) are normal. Each step handles its own
+    # failure mode with explicit retries.
+    NS="${ROBOT_NAMESPACE:-panther}"
+    xhost +local:docker
+    docker compose -f compose.simulation.glim.yaml down --remove-orphans
+    docker compose -f compose.simulation.glim.yaml pull
+    docker compose -f compose.simulation.glim.yaml up -d
+
+    # gz_ros_control's controller_spawner has a 10 s timeout to find the
+    # controller_manager service. Under load it races and exits with
+    # "Could not contact service ..." — leaving the controller_manager up
+    # but with NO controllers loaded at all (not even inactive). The stock
+    # workaround calls switch_controller, but that only activates
+    # already-loaded controllers and fails here ("no controller with this
+    # name exists"). Run the spawner ourselves now that ros2 is up; this
+    # both loads + activates all three controllers in one shot.
+    echo "[start-simulation-glim] waiting for $NS/controller_manager service..."
+    for i in $(seq 1 120); do
+        if docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && ros2 service list 2>/dev/null | grep -q /$NS/controller_manager/list_controllers"; then
+            echo "[start-simulation-glim] controller_manager up."
+            break
+        fi
+        sleep 1
+    done
+
+    echo "[start-simulation-glim] loading + activating controllers (retry up to 5x)..."
+    for attempt in 1 2 3 4 5; do
+        out=$(docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && \
+            ros2 run controller_manager spawner joint_state_broadcaster drive_controller imu_broadcaster \
+                --controller-manager /$NS/controller_manager --activate-as-group 2>&1" 2>&1)
+        if echo "$out" | grep -q "Configured and activated all the parsed controllers"; then
+            echo "[start-simulation-glim] controllers loaded + activated (attempt $attempt)."
+            break
+        fi
+        if echo "$out" | grep -q "Controller already loaded"; then
+            echo "[start-simulation-glim] controllers already loaded — skipping spawner."
+            break
+        fi
+        echo "[start-simulation-glim] spawner attempt $attempt failed, sleeping 3 s..."
+        sleep 3
+    done
+
+    # GLIM publishes <ns>/odom -> <ns>/base_link directly. EKF (started by
+    # husarion_ugv_gazebo's simulate_robot.launch.py) would also publish
+    # that edge and cause a TF conflict. simulate_robot.launch.py doesn't
+    # expose use_ekf, so kill ekf_node in-place — equivalent to launching
+    # with use_ekf:=False without patching upstream. EKF starts a few
+    # seconds AFTER the controllers come up, so retry until it's actually
+    # gone (one kill often races with a slower-starting EKF).
+    echo "[start-simulation-glim] disabling ekf_filter (GLIM owns odom -> base_link)..."
+    for i in $(seq 1 10); do
+        docker exec gazebo bash -c "pkill -9 -f ekf_node" 2>/dev/null || true
+        sleep 2
+        # ros2 node list authoritatively says whether ekf_filter is registered
+        # (pgrep -f ekf_node is unreliable here — it matches its own command
+        # line and other harmless processes through docker-exec wrapping).
+        if docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && ros2 node list 2>/dev/null | grep -q /ekf_filter\\\|/$NS/ekf_filter"; then
+            echo "[start-simulation-glim]   ekf_filter still alive, killing again (try $i)..."
+        else
+            echo "[start-simulation-glim]   ekf_filter terminated."
+            break
+        fi
+    done
+
+    # The panther's hardware e-stop is asserted at boot — nav2 reports
+    # "E-stop activated. Halting navigation." on every goal until reset.
+    # Reset it once. (Same as pressing the physical e-stop reset button.)
+    echo "[start-simulation-glim] resetting e-stop..."
+    docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && \
+        ros2 service call /$NS/hardware/e_stop_reset std_srvs/srv/Trigger 2>&1 | tail -3" || true
+
+    # Wait for GLIM to actually publish the $NS/odom -> $NS/base_link TF.
+    # The glim container needs to apt-install ros-jazzy-rmw-cyclonedds-cpp
+    # on every cold-start (~30 s) before it can publish anything. Nav2
+    # lifecycle activation fails permanently if local_costmap can't look
+    # up that transform within its 5 s timeout, so block here until the
+    # frame exists before restarting navigation.
+    echo "[start-simulation-glim] waiting for GLIM TF $NS/odom -> $NS/base_link..."
+    for i in $(seq 1 180); do
+        if docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && timeout 2 ros2 run tf2_ros tf2_echo $NS/odom $NS/base_link 2>&1 | grep -q 'Translation:'"; then
+            echo "[start-simulation-glim] GLIM TF tree up."
+            break
+        fi
+        sleep 2
+    done
+
+    echo "[start-simulation-glim] restarting navigation so nav2 boots on a GLIM TF tree..."
+    docker restart navigation >/dev/null || true
+
+    echo "[start-simulation-glim] streaming logs (Ctrl-C to stop streaming; containers keep running — 'docker compose -f compose.simulation.glim.yaml down' to stop)"
+    docker compose -f compose.simulation.glim.yaml logs -f
+
 # Configure and run Husarion WebUI
 start-visualization: check-husarion-webui
     #!/bin/bash

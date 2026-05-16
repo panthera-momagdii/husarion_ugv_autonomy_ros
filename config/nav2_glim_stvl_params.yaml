@@ -1,0 +1,430 @@
+---
+# nav2_glim_stvl_params.yaml
+#
+# Nav2 configuration for GLIM-backed odometry/SLAM + STVL-only obstacle layer.
+#
+# This file is the GLIM counterpart of nav2_params.yaml. The differences are:
+#   * No slam_toolbox section          (GLIM owns <ns>/map -> <ns>/odom)
+#   * No AMCL / map_server section     (GLIM provides the map frame; no static yaml)
+#   * No static_layer in global costmap (rolling-window outdoor mapping per
+#     https://github.com/ros-navigation/navigation2_tutorials/blob/rolling/
+#     nav2_gps_waypoint_follower_demo/config/nav2_no_map_params.yaml)
+#   * Global costmap rolling_window: true (mobile window around the robot)
+#   * velocity_smoother.odom_topic remapped to /<ns>/odometry/glim
+#
+# EKF MUST be disabled when this file is loaded — GLIM publishes the
+# <ns>/odom -> <ns>/base_link TF directly. See GLIM_STVL_NAV2_INTEGRATION.md.
+#
+# Placeholders ({<namespace>/, <observation_topic>, <min_x>, ...}) are filled
+# in by bringup_glim_stvl_launch.py (same ReplaceString mechanism as
+# nav2_params.yaml).
+/**:
+  ### NAVIGATION ###
+  bt_navigator:
+    ros__parameters:
+      use_sim_time: false
+      global_frame: <namespace>/map
+      robot_base_frame: <namespace>/base_link
+      odom_topic: odometry/glim
+      plugin_lib_names:
+        - is_estop
+
+  bt_navigator_navigate_through_poses_rclcpp_node:
+    ros__parameters:
+      use_sim_time: false
+
+  bt_navigator_navigate_to_pose_rclcpp_node:
+    ros__parameters:
+      use_sim_time: false
+
+  controller_server:
+    ros__parameters:
+      use_sim_time: false
+      enable_stamped_cmd_vel: true
+
+      controller_frequency: 10.0
+      odom_topic: odometry/glim
+      costmap_update_timeout: 0.5
+
+      min_x_velocity_threshold: 0.01
+      min_y_velocity_threshold: 0.01
+      min_theta_velocity_threshold: 0.05
+      failure_tolerance: 0.4
+      use_realtime_priority: false
+
+      progress_checker_plugin: progress_checker
+      progress_checker:
+        movement_time_allowance: 10.0
+        plugin: nav2_controller::SimpleProgressChecker
+        required_movement_radius: 0.5
+
+      goal_checker_plugins: [goal_checker]
+      goal_checker:
+        plugin: nav2_controller::SimpleGoalChecker
+        stateful: true
+        xy_goal_tolerance: 0.1
+        yaw_goal_tolerance: 0.15
+
+      controller_plugins: [FollowPath]
+      FollowPath:
+        plugin: nav2_mppi_controller::MPPIController
+        time_steps: 40
+        model_dt: 0.1
+        batch_size: 800
+        vx_std: 0.4
+        vy_std: 0.0
+        wz_std: 0.5
+        vx_max: 0.8
+        vx_min: -0.5
+        vy_max: 0.0
+        wz_max: 1.0
+        iteration_count: 1
+        prune_distance: 2.5
+        transform_tolerance: 0.3
+        temperature: 0.3
+        gamma: 0.015
+        motion_model: DiffDrive
+        regenerate_noises: true
+        visualize: false
+        AckermannConstraints:
+          min_turning_r: 0.05
+        critics: [ConstraintCritic, CostCritic, GoalCritic, GoalAngleCritic, PathAlignCritic, PathFollowCritic, PathAngleCritic, PreferForwardCritic]
+        ConstraintCritic:
+          enabled: false
+          cost_power: 1
+          cost_weight: 4.0
+        GoalCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 5.0
+          threshold_to_consider: 3.2
+        GoalAngleCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 3.0
+          threshold_to_consider: 0.1
+        PreferForwardCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 7.0
+          threshold_to_consider: 1.5
+        CostCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 3.81
+          critical_cost: 300.0
+          consider_footprint: true
+          collision_cost: 1000000.0
+          near_goal_distance: 1.0
+        PathAlignCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 14.0
+          max_path_occupancy_ratio: 0.05
+          trajectory_point_step: 4
+          threshold_to_consider: 0.5
+          offset_from_furthest: 20
+          use_path_orientations: false
+        PathFollowCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 5.0
+          offset_from_furthest: 5
+          threshold_to_consider: 3.2
+        PathAngleCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 2.0
+          offset_from_furthest: 4
+          threshold_to_consider: 0.5
+          max_angle_to_furthest: 1.0
+          mode: 0
+
+  ### LOCAL COSTMAP (rolling window around the robot — same as stock) ###
+  local_costmap:
+    local_costmap:
+      ros__parameters:
+        use_sim_time: false
+
+        global_frame: <namespace>/odom
+        robot_base_frame: <namespace>/base_link
+        transform_tolerance: 0.3
+
+        update_frequency: 5.0
+        publish_frequency: 2.0
+
+        width: 20
+        height: 20
+        resolution: 0.10
+
+        always_send_full_costmap: true
+        rolling_window: true
+
+        footprint: '[[<min_x>, <min_y>], [<min_x>, <max_y>], [<max_x>, <max_y>], [<max_x>, <min_y>]]'
+
+        plugins: [stvl_layer, inflation_layer]
+        inflation_layer:
+          plugin: nav2_costmap_2d::InflationLayer
+          cost_scaling_factor: 2.0
+          inflation_radius: 2.0
+
+        stvl_layer:
+          plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
+          enabled: true
+          voxel_decay: 2.0
+          decay_model: 0
+          voxel_size: 0.12
+          track_unknown_space: true
+          unknown_threshold: 6
+          mark_threshold: 0
+          update_footprint_enabled: true
+          combination_method: 1
+          origin_z: 0.0
+          publish_voxel_map: true
+          transform_tolerance: 0.3
+          mapping_mode: false
+          map_save_duration: 60.0
+          observation_sources: <observation_topic_type>
+          pointcloud:
+            data_type: PointCloud2
+            topic: <observation_topic>_filtered
+            marking: true
+            clearing: true
+            obstacle_range: 25.0
+            min_obstacle_height: 0.10
+            max_obstacle_height: 2.5
+            expected_update_rate: 1.0
+            observation_persistence: 0.0
+            inf_is_valid: false
+            filter: "voxel"
+            voxel_min_points: 1
+            clear_after_reading: true
+            max_z: 2.5
+            min_z: 0.10
+            vertical_fov_angle: 0.8745
+            horizontal_fov_angle: 1.048
+            decay_acceleration: 10.0
+            model_type: 0
+          laserscan:
+            data_type: LaserScan
+            topic: <observation_topic>
+            marking: true
+            clearing: true
+            obstacle_range: 25.0
+            min_obstacle_height: 0.10
+            max_obstacle_height: 2.5
+            expected_update_rate: 1.0
+            observation_persistence: 0.0
+            inf_is_valid: false
+            filter: "voxel"
+            voxel_min_points: 1
+            clear_after_reading: true
+            max_z: 2.5
+            min_z: 0.10
+            vertical_fov_angle: 0.8745
+            horizontal_fov_angle: 1.048
+            decay_acceleration: 10.0
+            model_type: 0
+
+  ### GLOBAL COSTMAP (rolling window, no static map, STVL only) ###
+  # Pattern from nav2_no_map_params.yaml: outdoor / mapless setups
+  # use a large rolling global costmap centered on the robot, with
+  # only the moving obstacle layer (STVL) + inflation.
+  global_costmap:
+    global_costmap:
+      ros__parameters:
+        use_sim_time: false
+
+        global_frame: <namespace>/map
+        robot_base_frame: <namespace>/base_link
+        transform_tolerance: 0.3
+
+        update_frequency: 1.0
+        publish_frequency: 1.0
+
+        resolution: 0.10
+
+        # Rolling window — no static map.
+        rolling_window: true
+        width: 60
+        height: 60
+
+        always_send_full_costmap: true
+        track_unknown_space: true
+
+        footprint: '[[<min_x>, <min_y>], [<min_x>, <max_y>], [<max_x>, <max_y>], [<max_x>, <min_y>]]'
+
+        plugins: [stvl_layer, inflation_layer]
+        inflation_layer:
+          plugin: nav2_costmap_2d::InflationLayer
+          cost_scaling_factor: 1.5
+          inflation_radius: 5.0
+          inflate_around_unknown: false
+          inflate_unknown: false
+
+        stvl_layer:
+          plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
+          enabled: true
+          voxel_decay: 15.0
+          decay_model: 0
+          voxel_size: 0.12
+          track_unknown_space: true
+          unknown_threshold: 6
+          mark_threshold: 0
+          update_footprint_enabled: true
+          combination_method: 1
+          origin_z: 0.0
+          publish_voxel_map: true
+          transform_tolerance: 0.3
+          mapping_mode: false
+          map_save_duration: 60.0
+          observation_sources: <observation_topic_type>
+          pointcloud:
+            data_type: PointCloud2
+            topic: <observation_topic>_filtered
+            marking: true
+            clearing: true
+            obstacle_range: 40.0
+            min_obstacle_height: 0.10
+            max_obstacle_height: 2.5
+            expected_update_rate: 1.0
+            observation_persistence: 0.0
+            inf_is_valid: false
+            filter: "voxel"
+            voxel_min_points: 1
+            clear_after_reading: true
+            max_z: 2.5
+            min_z: 0.10
+            vertical_fov_angle: 0.8745
+            horizontal_fov_angle: 1.048
+            decay_acceleration: 5.0
+            model_type: 0
+          laserscan:
+            data_type: LaserScan
+            topic: <observation_topic>
+            marking: true
+            clearing: true
+            obstacle_range: 40.0
+            min_obstacle_height: 0.10
+            max_obstacle_height: 2.5
+            expected_update_rate: 1.0
+            observation_persistence: 0.0
+            inf_is_valid: false
+            filter: "voxel"
+            voxel_min_points: 1
+            clear_after_reading: true
+            max_z: 2.5
+            min_z: 0.10
+            vertical_fov_angle: 0.8745
+            horizontal_fov_angle: 1.048
+            decay_acceleration: 5.0
+            model_type: 0
+
+  planner_server:
+    ros__parameters:
+      use_sim_time: false
+      expected_planner_frequency: 1.0
+
+      planner_plugins: [GridBased]
+      GridBased:
+        plugin: nav2_smac_planner::SmacPlanner2D
+        tolerance: 0.125
+        downsample_costmap: false
+        downsampling_factor: 1
+        allow_unknown: true
+        max_iterations: 600000
+        max_on_approach_iterations: 500
+        max_planning_time: 3.0
+        cost_travel_multiplier: 2.5
+        use_final_approach_orientation: false
+        smoother:
+          max_iterations: 500
+          w_smooth: 0.2
+          w_data: 0.2
+          tolerance: 1.0e-6
+
+  behavior_server:
+    ros__parameters:
+      use_sim_time: false
+      enable_stamped_cmd_vel: true
+
+      global_frame: <namespace>/map
+      local_frame: <namespace>/odom
+      robot_base_frame: <namespace>/base_link
+      transform_tolerance: 0.3
+
+      costmap_topic: local_costmap/costmap_raw
+      footprint_topic: local_costmap/published_footprint
+      cycle_frequency: 10.0
+
+      recovery_plugins: [spin, backup, wait]
+      spin:
+        plugin: nav2_behaviors::Spin
+      backup:
+        plugin: nav2_behaviors::BackUp
+      wait:
+        plugin: nav2_behaviors::Wait
+
+      simulate_ahead_time: 2.0
+
+      max_rotational_vel: 1.0
+      min_rotational_vel: 0.4
+      rotational_acc_lim: 3.2
+
+  waypoint_follower:
+    ros__parameters:
+      use_sim_time: false
+      enable_stamped_cmd_vel: true
+      loop_rate: 20
+      stop_on_failure: false
+      waypoint_task_executor_plugin: wait_at_waypoint
+      wait_at_waypoint:
+        plugin: nav2_waypoint_follower::WaitAtWaypoint
+        waypoint_pause_duration: 5
+
+  velocity_smoother:
+    ros__parameters:
+      use_sim_time: True
+      enable_stamped_cmd_vel: true
+      smoothing_frequency: 20.0
+      scale_velocities: False
+      feedback: OPEN_LOOP
+      max_velocity: [0.8, 0.0, 1.0]
+      min_velocity: [-0.5, 0.0, -1.0]
+      max_accel: [1.5, 0.0, 2.0]
+      max_decel: [-1.5, 0.0, -2.0]
+      odom_topic: <namespace>/odometry/glim
+      odom_duration: 0.1
+      deadband_velocity: [0.0, 0.0, 0.0]
+      velocity_timeout: 1.0
+
+  ### Pre-processing helpers (same as stock nav2_params.yaml) ###
+
+  pointcloud_to_laserscan:
+    ros__parameters:
+      use_sim_time: false
+      min_height: <min_z>
+      max_height: <max_z>
+      angle_min: -3.14
+      angle_max: 3.14
+      angle_increment: 0.01
+      scan_time: 0.1
+      range_min: 0.7
+      range_max: 20.0
+      target_frame: <namespace>/base_footprint
+      transform_tolerance: 0.01
+      inf_epsilon: 1.0
+      use_inf: true
+
+  pointcloud_crop_box:
+    ros__parameters:
+      input_topic: <observation_topic>
+      output_topic: <observation_topic>_filtered
+      target_frame: <namespace>/base_footprint
+      min_x: <min_x>
+      max_x: <max_x>
+      min_y: <min_y>
+      max_y: <max_y>
+      min_z: <min_z>
+      max_z: <max_z>
+      negative: true

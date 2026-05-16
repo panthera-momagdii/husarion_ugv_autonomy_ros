@@ -1,0 +1,151 @@
+---
+# compose.simulation.glim.yaml
+#
+# Variant of compose.simulation.yaml that swaps the Nav2 stack to use
+# GLIM (LiDAR-inertial SLAM) instead of slam_toolbox + EKF.
+#
+#   * gazebo:     same as the stock simulation, except the post-startup
+#                 hook in `just start-simulation-glim` kills ekf_filter so
+#                 GLIM is the sole publisher of <ns>/odom -> <ns>/base_link.
+#   * glim:       runs glim_rosnode against /panther/imu/data and
+#                 /panther/ouster/points, publishes <ns>/map -> <ns>/odom
+#                 and <ns>/odom -> <ns>/base_link.
+#   * navigation: uses bringup_glim_stvl_launch.py (no slam_toolbox, no
+#                 AMCL, no static map) with nav2_glim_stvl_params.yaml.
+#   * docking:    unchanged.
+#
+# See GLIM_STVL_NAV2_INTEGRATION.md for the full architecture.
+
+x-common-config:
+  &common-config
+  network_mode: host
+  ipc: host
+  env_file: .env
+
+services:
+  gazebo:
+    image: husarion/husarion-ugv-gazebo:jazzy-2.3.1-20250701
+    container_name: gazebo
+    <<: *common-config
+    runtime: nvidia
+    environment:
+      - DISPLAY
+      - XDG_RUNTIME_DIR=/tmp
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility,display
+      - CYCLONE_DDS_URI=
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./config:/config
+      - ./worlds:/worlds
+      # Override the gz-to-ROS lidar bridge config: tiny queues so stale
+      # scans get dropped instead of queued — keeps lidar stamps in sync
+      # with /clock under load (see file header). Stock husarion_world
+      # path:
+      #   /ros2_ws/install/husarion_components_description/share/
+      #     husarion_components_description/config/gz_ouster_os_remappings.yaml
+      - ./config/gz_ouster_os_remappings.yaml:/ros2_ws/install/husarion_components_description/share/husarion_components_description/config/gz_ouster_os_remappings.yaml:ro
+      # Drop the lidar update rate from 20 Hz to 10 Hz. The gz_bridge can
+      # only push ~10 Hz wall-time of PointCloud2 through DDS under load;
+      # generating 20 Hz at the sensor stuffs the bridge with old frames
+      # that drift behind /clock. 10 Hz matches what the bridge can
+      # actually deliver and what GLIM expects from an ouster.
+      - ./config/ouster.urdf.xacro:/ros2_ws/install/husarion_components_description/share/husarion_components_description/urdf/ouster.urdf.xacro:ro
+    command: >
+      ros2 launch husarion_ugv_gazebo simulation.launch.py
+        components_config_path:=/config/components.yaml
+        namespace:=${ROBOT_NAMESPACE:-panther}
+        robot_model:=${ROBOT_MODEL:-panther}
+        rviz_config:=/config/nav2.rviz
+        gz_world:=${GZ_WORLD:-/ros2_ws/install/husarion_gz_worlds/share/husarion_gz_worlds/worlds/husarion_world.sdf}
+
+  glim:
+    image: koide3/glim_ros2:jazzy_cuda12.5
+    container_name: glim
+    <<: *common-config
+    # Match the working manual `docker run --net=host --ipc=host --pid=host`
+    # invocation exactly: pid=host lets CycloneDDS use shared-memory iceoryx
+    # (when configured) and avoids per-container PID namespace overhead for
+    # high-rate sensor topics. Without it, the gz_bridge falls behind /clock
+    # under load and glim drifts.
+    pid: host
+    runtime: nvidia
+    environment:
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility,display
+      - CYCLONE_DDS_URI=
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${HOME}/.Xauthority:/root/.Xauthority:rw
+      # GLIM_CONFIG_DIR points at the directory that holds config_ros.json
+      # and friends. Defaults to ../glim/config (sibling repo) but can be
+      # overridden in .env for hardware deployments.
+      - ${GLIM_CONFIG_DIR:-../glim/config}:/glim/config
+    # Install cyclonedds RMW in-place (matching the manual `docker run`
+    # invocation the user has been driving GLIM with). Source the ROS env,
+    # then start glim_rosnode pointed at the mounted config.
+    entrypoint: ["bash", "-lc"]
+    command:
+      - |
+        set -e
+        apt-get update -q >/dev/null
+        apt-get install -y ros-jazzy-rmw-cyclonedds-cpp >/dev/null
+        source /opt/ros/jazzy/setup.bash
+        [ -f /root/ros2_ws/install/setup.bash ] && source /root/ros2_ws/install/setup.bash
+        exec ros2 run glim_ros glim_rosnode --ros-args -p config_path:=/glim/config
+
+  docking:
+    image: husarion/husarion-ugv-autonomy:jazzy-0.1.2-20250902
+    container_name: docking
+    <<: *common-config
+    environment:
+      - CYCLONE_DDS_URI=
+    volumes:
+      - ./config:/config
+    command: >
+      ros2 launch husarion_ugv_docking docking.launch.py
+        apriltag_output_dir:=/config/apriltags
+        apriltag_size:=0.08
+        camera_image_topic:=${CAMERA_IMAGE_TOPIC:-/panther/camera/color/image_raw}
+        camera_info_topic:=${CAMERA_INFO_TOPIC:-/panther/camera/color/camera_info}
+        docking_server_config_path:=/config/docking_server.yaml
+        namespace:=${ROBOT_NAMESPACE:-panther}
+        use_sim:=True
+        use_wibotic_info:=False
+
+  navigation:
+    image: husarion/husarion-ugv-autonomy:jazzy-0.1.2-20250902
+    container_name: navigation
+    <<: *common-config
+    environment:
+      - CYCLONE_DDS_URI=
+    volumes:
+      - ./config:/config
+      - ./maps:/maps
+    # topic_tools (for the GLIM odom relay in bringup_glim_stvl_launch.py)
+    # isn't bundled in the husarion-ugv-autonomy image. Install it once at
+    # container start, then exec the launch file. The image's entrypoint
+    # already sources ROS; the `source` calls below just pick up the newly
+    # apt-installed package without restarting the shell.
+    entrypoint: ["/ros_entrypoint.sh", "bash", "-c"]
+    command:
+      - |
+        set -e
+        if ! ros2 pkg prefix topic_tools >/dev/null 2>&1; then
+          apt-get update -q >/dev/null
+          apt-get install -y ros-jazzy-topic-tools >/dev/null
+        fi
+        source /opt/ros/jazzy/setup.bash
+        [ -f /ros2_ws/install/setup.bash ] && source /ros2_ws/install/setup.bash
+        exec ros2 launch /config/bringup_glim_stvl_launch.py \
+          namespace:=${ROBOT_NAMESPACE:-panther} \
+          observation_topic:=/${ROBOT_NAMESPACE:-panther}/ouster/points \
+          observation_topic_type:=pointcloud \
+          params_file:=/config/nav2_glim_stvl_params.yaml \
+          glim_odom_topic:=/glim_ros/odom \
+          robot_model:=${ROBOT_MODEL:-panther} \
+          use_sim_time:=True
