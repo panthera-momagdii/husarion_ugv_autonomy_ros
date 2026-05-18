@@ -1,0 +1,97 @@
+---
+# compose.simulation.glim.elevation.yaml
+#
+# Compose OVERRIDE for compose.simulation.glim.yaml. Always used as the
+# second `-f` argument:
+#
+#     docker compose -f compose.simulation.glim.yaml \
+#                    -f compose.simulation.glim.elevation.yaml up -d
+#
+# Two things change relative to the base file:
+#
+#   1. `navigation` is repointed at bringup_glim_elevation_launch.py +
+#      nav2_glim_elevation_params.yaml — Nav2 drops the STVL voxel layer
+#      and consumes the elevation_traversability package's
+#      /occupancy_map_local + /occupancy_map_global topics via two
+#      nav2_costmap_2d::StaticLayer plugins.
+#
+#   2. A new `elevation_traversability` service mirrors the manual
+#      `docker run` invocation in elevation_traversability/run_elevation.txt
+#      — RMW=cyclonedds, ../elevation_traversability/config mounted at
+#      /config:ro, image is local-only (`pull_policy: never`).
+#
+# Keeping gazebo + glim + docking exactly as the base file defines them
+# is intentional: the override pattern guarantees byte-identical service
+# specs and behavior for the SLAM + sim halves, matching the working
+# `just start-simulation-glim` baseline.
+
+services:
+  navigation:
+    # Reuse the baseline `bringup_glim_stvl_launch.py` from
+    # compose.simulation.glim.yaml verbatim — only the params file
+    # changes. Keeping the launch file identical to the baseline
+    # preserves the side-effect subscribers (pointcloud_crop_be.py +
+    # pointcloud_to_laserscan_node) on /panther/ouster/points; their
+    # presence during GLIM warm-up is empirically required to keep
+    # GLIM's lidar/IMU queue from desyncing. The cropper publishes
+    # `<observation_topic>_filtered` and the laserscan publishes /scan
+    # — neither costmap uses them, but the topics are harmless.
+    #
+    # The baseline launch's ReplaceString substitutions for
+    # <observation_topic>, <observation_topic_type>, <scan_topic>, and
+    # <stvl_layer> are no-ops in nav2_glim_elevation_params.yaml
+    # because that file doesn't contain those placeholders.
+    command:
+      - |
+        set -e
+        if ! ros2 pkg prefix topic_tools >/dev/null 2>&1; then
+          apt-get update -q >/dev/null
+          apt-get install -y ros-jazzy-topic-tools >/dev/null
+        fi
+        source /opt/ros/jazzy/setup.bash
+        [ -f /ros2_ws/install/setup.bash ] && source /ros2_ws/install/setup.bash
+        exec ros2 launch /config/bringup_glim_stvl_launch.py \
+          namespace:=${ROBOT_NAMESPACE:-panther} \
+          observation_topic:=/${ROBOT_NAMESPACE:-panther}/ouster/points \
+          observation_topic_type:=pointcloud \
+          params_file:=/config/nav2_glim_elevation_params.yaml \
+          glim_odom_topic:=/glim_ros/odom \
+          robot_model:=${ROBOT_MODEL:-panther} \
+          use_sim_time:=True
+
+  elevation_traversability:
+    image: elevation_traversability:jazzy
+    container_name: elevation_traversability
+    pull_policy: never
+    network_mode: host
+    ipc: host
+    env_file: .env
+    # CYCLONE_DDS_URI unset (the elevation_traversability config dir
+    # doesn't ship a cyclonedds.xml — the entrypoint would fail to load
+    # the one from .env). RMW stays cyclonedds.
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - CYCLONE_DDS_URI=
+    volumes:
+      - ../elevation_traversability/config:/config:ro
+    # `raw_topic:=/panther/ouster/points` is critical: subscribing to
+    # /glim_ros/aligned_points_corrected (the package's default for
+    # GLIM) causes GLIM's lidar/IMU queue to desync the instant
+    # elevation_traversability joins the DDS bus — empirically
+    # reproducible, GLIM falls into a "large time difference between
+    # points and imu!!" loop it never recovers from. Routing
+    # elevation_traversability straight off the gz_bridge output makes
+    # it a sibling of GLIM (both consume /panther/ouster/points) rather
+    # than a downstream subscriber, and GLIM stays healthy.
+    #
+    # The entrypoint does its env-detect setup, then `exec "$@"` runs
+    # this command.
+    command:
+      - ros2
+      - launch
+      - elevation_traversability
+      - elevation_traversability.launch.py
+      - params_file:=/config/params.yaml
+      - raw_topic:=/glim_ros/aligned_points_corrected
+      - rviz:=false
+    profiles: [elevation]

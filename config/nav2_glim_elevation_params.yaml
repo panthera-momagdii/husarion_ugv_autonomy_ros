@@ -1,0 +1,317 @@
+---
+# nav2_glim_elevation_params.yaml
+#
+# Nav2 configuration for GLIM + elevation_traversability-driven costmaps.
+#
+# Differences vs nav2_glim_stvl_params.yaml:
+#   * No STVL voxel layer. Both costmaps now consume the
+#     elevation_traversability package's OccupancyGrid topics:
+#       /occupancy_map_local  — RELIABLE, VOLATILE, frame_id panther/map,
+#                               rolling 40 m window, ~4 Hz
+#       /occupancy_map_global — RELIABLE, TRANSIENT_LOCAL (latched),
+#                               frame_id panther/map, accumulating, ~0.5 Hz
+#   * Local + global costmaps each use a nav2_costmap_2d::StaticLayer
+#     bound to the corresponding topic.
+#   * Local costmap.global_frame stays <namespace>/odom for rate stability;
+#     the StaticLayer transforms panther/map -> panther/odom on each update.
+#
+# EKF MUST be disabled when this file is loaded — GLIM publishes the
+# <ns>/odom -> <ns>/base_link TF directly.
+#
+# Placeholders ({<namespace>/, <min_x>, ...}) are filled in by
+# bringup_glim_elevation_launch.py via the standard ReplaceString
+# mechanism.
+/**:
+  ### NAVIGATION ###
+  bt_navigator:
+    ros__parameters:
+      use_sim_time: false
+      global_frame: <namespace>/map
+      robot_base_frame: <namespace>/base_link
+      odom_topic: odometry/glim
+      plugin_lib_names:
+        - is_estop
+
+  bt_navigator_navigate_through_poses_rclcpp_node:
+    ros__parameters:
+      use_sim_time: false
+
+  bt_navigator_navigate_to_pose_rclcpp_node:
+    ros__parameters:
+      use_sim_time: false
+
+  controller_server:
+    ros__parameters:
+      use_sim_time: false
+      enable_stamped_cmd_vel: true
+
+      controller_frequency: 10.0
+      odom_topic: odometry/glim
+      costmap_update_timeout: 0.5
+
+      min_x_velocity_threshold: 0.01
+      min_y_velocity_threshold: 0.01
+      min_theta_velocity_threshold: 0.05
+      failure_tolerance: 0.4
+      use_realtime_priority: false
+
+      progress_checker_plugin: progress_checker
+      progress_checker:
+        movement_time_allowance: 10.0
+        plugin: nav2_controller::SimpleProgressChecker
+        required_movement_radius: 0.5
+
+      goal_checker_plugins: [goal_checker]
+      goal_checker:
+        plugin: nav2_controller::SimpleGoalChecker
+        stateful: true
+        xy_goal_tolerance: 0.1
+        yaw_goal_tolerance: 0.15
+
+      controller_plugins: [FollowPath]
+      FollowPath:
+        plugin: nav2_mppi_controller::MPPIController
+        time_steps: 40
+        model_dt: 0.1
+        batch_size: 800
+        vx_std: 0.4
+        vy_std: 0.0
+        wz_std: 0.5
+        vx_max: 0.8
+        vx_min: -0.5
+        vy_max: 0.0
+        wz_max: 1.0
+        iteration_count: 1
+        prune_distance: 2.5
+        transform_tolerance: 0.3
+        temperature: 0.3
+        gamma: 0.015
+        motion_model: DiffDrive
+        regenerate_noises: true
+        visualize: false
+        AckermannConstraints:
+          min_turning_r: 0.05
+        critics: [ConstraintCritic, CostCritic, GoalCritic, GoalAngleCritic, PathAlignCritic, PathFollowCritic, PathAngleCritic, PreferForwardCritic]
+        ConstraintCritic:
+          enabled: false
+          cost_power: 1
+          cost_weight: 4.0
+        GoalCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 5.0
+          threshold_to_consider: 3.2
+        GoalAngleCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 3.0
+          threshold_to_consider: 0.1
+        PreferForwardCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 7.0
+          threshold_to_consider: 1.5
+        CostCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 3.81
+          critical_cost: 300.0
+          consider_footprint: true
+          collision_cost: 1000000.0
+          near_goal_distance: 1.0
+        PathAlignCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 14.0
+          max_path_occupancy_ratio: 0.05
+          trajectory_point_step: 4
+          threshold_to_consider: 0.5
+          offset_from_furthest: 20
+          use_path_orientations: false
+        PathFollowCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 5.0
+          offset_from_furthest: 5
+          threshold_to_consider: 3.2
+        PathAngleCritic:
+          enabled: true
+          cost_power: 1
+          cost_weight: 2.0
+          offset_from_furthest: 4
+          threshold_to_consider: 0.5
+          max_angle_to_furthest: 1.0
+          mode: 0
+
+  ### LOCAL COSTMAP — rolling, driven by /occupancy_map_local ###
+  local_costmap:
+    local_costmap:
+      ros__parameters:
+        use_sim_time: false
+
+        global_frame: <namespace>/odom
+        robot_base_frame: <namespace>/base_link
+        transform_tolerance: 0.3
+
+        update_frequency: 5.0
+        publish_frequency: 2.0
+
+        width: 20
+        height: 20
+        resolution: 0.10
+
+        always_send_full_costmap: true
+        rolling_window: true
+
+        footprint: '[[<min_x>, <min_y>], [<min_x>, <max_y>], [<max_x>, <max_y>], [<max_x>, <min_y>]]'
+
+        plugins: [elevation_local_layer, inflation_layer]
+
+        # StaticLayer subscribed to elevation_traversability's rolling
+        # local occupancy grid. The publisher QoS is RELIABLE/VOLATILE,
+        # so map_subscribe_transient_local MUST be false (mismatched
+        # durability would silently drop messages).
+        elevation_local_layer:
+          plugin: nav2_costmap_2d::StaticLayer
+          enabled: true
+          map_topic: /occupancy_map_local
+          subscribe_to_updates: false
+          map_subscribe_transient_local: false
+          transform_tolerance: 0.3
+          # Treat unknown cells (value 255 / -1) as free in the local
+          # window — the rolling map only covers ~40 m and unknown
+          # cells outside the lidar FOV must not block the controller.
+          trinary_costmap: false
+
+        inflation_layer:
+          plugin: nav2_costmap_2d::InflationLayer
+          cost_scaling_factor: 1.5
+          inflation_radius: 0.7
+
+  ### GLOBAL COSTMAP — accumulated, driven by /occupancy_map_global ###
+  global_costmap:
+    global_costmap:
+      ros__parameters:
+        use_sim_time: false
+
+        global_frame: <namespace>/map
+        robot_base_frame: <namespace>/base_link
+        transform_tolerance: 0.3
+
+        update_frequency: 1.0
+        publish_frequency: 1.0
+
+        # Non-rolling: inherits width/height/origin from the source map.
+        # /occupancy_map_global is latched, so the costmap snaps to the
+        # newest map dimensions every time elevation_traversability
+        # republishes (~0.5 Hz).
+        rolling_window: false
+
+        # Cells the elevation pipeline has never observed are unknown;
+        # the global planner is allowed to plan through unknown so the
+        # robot can explore beyond what the map has seen so far.
+        track_unknown_space: true
+
+        always_send_full_costmap: true
+
+        footprint: '[[<min_x>, <min_y>], [<min_x>, <max_y>], [<max_x>, <max_y>], [<max_x>, <min_y>]]'
+
+        plugins: [elevation_global_layer, inflation_layer]
+
+        # StaticLayer subscribed to the accumulated global occupancy
+        # grid. Publisher QoS is RELIABLE/TRANSIENT_LOCAL — late
+        # subscribers (nav2 lifecycle on activation) get the latest
+        # map immediately.
+        elevation_global_layer:
+          plugin: nav2_costmap_2d::StaticLayer
+          enabled: true
+          map_topic: /occupancy_map_global
+          subscribe_to_updates: false
+          map_subscribe_transient_local: true
+          transform_tolerance: 0.3
+          trinary_costmap: false
+
+        inflation_layer:
+          plugin: nav2_costmap_2d::InflationLayer
+          cost_scaling_factor: 1.5
+          inflation_radius: 0.7
+          inflate_around_unknown: false
+          inflate_unknown: false
+
+  planner_server:
+    ros__parameters:
+      use_sim_time: false
+      expected_planner_frequency: 1.0
+
+      planner_plugins: [GridBased]
+      GridBased:
+        plugin: nav2_smac_planner::SmacPlanner2D
+        tolerance: 0.125
+        downsample_costmap: false
+        downsampling_factor: 1
+        allow_unknown: true
+        max_iterations: 600000
+        max_on_approach_iterations: 500
+        max_planning_time: 3.0
+        cost_travel_multiplier: 2.5
+        use_final_approach_orientation: false
+        smoother:
+          max_iterations: 500
+          w_smooth: 0.2
+          w_data: 0.2
+          tolerance: 1.0e-6
+
+  behavior_server:
+    ros__parameters:
+      use_sim_time: false
+      enable_stamped_cmd_vel: true
+
+      global_frame: <namespace>/map
+      local_frame: <namespace>/odom
+      robot_base_frame: <namespace>/base_link
+      transform_tolerance: 0.3
+
+      costmap_topic: local_costmap/costmap_raw
+      footprint_topic: local_costmap/published_footprint
+      cycle_frequency: 10.0
+
+      recovery_plugins: [spin, backup, wait]
+      spin:
+        plugin: nav2_behaviors::Spin
+      backup:
+        plugin: nav2_behaviors::BackUp
+      wait:
+        plugin: nav2_behaviors::Wait
+
+      simulate_ahead_time: 2.0
+
+      max_rotational_vel: 1.0
+      min_rotational_vel: 0.4
+      rotational_acc_lim: 3.2
+
+  waypoint_follower:
+    ros__parameters:
+      use_sim_time: false
+      enable_stamped_cmd_vel: true
+      loop_rate: 20
+      stop_on_failure: false
+      waypoint_task_executor_plugin: wait_at_waypoint
+      wait_at_waypoint:
+        plugin: nav2_waypoint_follower::WaitAtWaypoint
+        waypoint_pause_duration: 5
+
+  velocity_smoother:
+    ros__parameters:
+      use_sim_time: True
+      enable_stamped_cmd_vel: true
+      smoothing_frequency: 20.0
+      scale_velocities: False
+      feedback: OPEN_LOOP
+      max_velocity: [0.8, 0.0, 1.0]
+      min_velocity: [-0.5, 0.0, -1.0]
+      max_accel: [1.5, 0.0, 2.0]
+      max_decel: [-1.5, 0.0, -2.0]
+      odom_topic: <namespace>/odometry/glim
+      odom_duration: 0.1
+      deadband_velocity: [0.0, 0.0, 0.0]
+      velocity_timeout: 1.0
