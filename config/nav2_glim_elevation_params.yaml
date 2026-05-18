@@ -185,8 +185,8 @@
 
         inflation_layer:
           plugin: nav2_costmap_2d::InflationLayer
-          cost_scaling_factor: 1.5
-          inflation_radius: 0.7
+          cost_scaling_factor: 3.0
+          inflation_radius: 0.55
 
   ### GLOBAL COSTMAP — accumulated, driven by /occupancy_map_global ###
   global_costmap:
@@ -198,8 +198,8 @@
         robot_base_frame: <namespace>/base_link
         transform_tolerance: 0.3
 
-        update_frequency: 1.0
-        publish_frequency: 1.0
+        update_frequency: 2.0
+        publish_frequency: 2.0
 
         # Non-rolling: inherits width/height/origin from the source map.
         # /occupancy_map_global is latched, so the costmap snaps to the
@@ -233,8 +233,8 @@
 
         inflation_layer:
           plugin: nav2_costmap_2d::InflationLayer
-          cost_scaling_factor: 1.5
-          inflation_radius: 0.7
+          cost_scaling_factor: 3.0
+          inflation_radius: 0.55
           inflate_around_unknown: false
           inflate_unknown: false
 
