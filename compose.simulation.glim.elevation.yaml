@@ -92,6 +92,6 @@ services:
       - elevation_traversability
       - elevation_traversability.launch.py
       - params_file:=/config/params.yaml
-      - raw_topic:=/glim_ros/aligned_points_corrected
+      - raw_topic:=/glim_ros/aligned_points
       - rviz:=false
     profiles: [elevation]
