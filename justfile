@@ -173,6 +173,153 @@ start-simulation-glim:
     echo "[start-simulation-glim] streaming logs (Ctrl-C to stop streaming; containers keep running — 'docker compose -f compose.simulation.glim.yaml down' to stop)"
     docker compose -f compose.simulation.glim.yaml logs -f
 
+# Start Gazebo + GLIM SLAM + elevation_traversability + Nav2 (occupancy-grid costmaps)
+start-simulation-glim-elevation:
+    #!/bin/bash
+    # Same orchestration as start-simulation-glim. The compose file adds
+    # an elevation_traversability container that publishes
+    # /occupancy_map_local + /occupancy_map_global; Nav2 drops STVL and
+    # consumes those topics via two StaticLayers. See
+    # config/nav2_glim_elevation_params.yaml and
+    # config/bringup_glim_elevation_launch.py.
+    #
+    # No `set -e`: same reasoning as start-simulation-glim — transient
+    # DDS / docker-exec / service-call failures are normal under load
+    # and each step handles its own retries.
+    NS="${ROBOT_NAMESPACE:-panther}"
+    xhost +local:docker
+
+    # Stop any standalone elevation_traversability container the user
+    # may have left running from a manual `docker run` — it would
+    # double-publish /occupancy_map_local + /occupancy_map_global and
+    # break the StaticLayers' map subscription.
+    for cid in $(docker ps -q --filter ancestor=elevation_traversability:jazzy); do
+        echo "[start-simulation-glim-elevation] stopping stray elevation_traversability container $cid..."
+        docker stop "$cid" >/dev/null || true
+    done
+
+    # The .elevation.yaml is a COMPOSE OVERRIDE on top of compose.simulation.glim.yaml
+    # — using both -f flags keeps gazebo + glim + docking byte-identical
+    # to the working `just start-simulation-glim` baseline. The override
+    # only repoints `navigation` at the new bringup/params and adds the
+    # `elevation_traversability` service (which is profile-gated so it
+    # stays out of the default `up`).
+    BASE="compose.simulation.glim.yaml"
+    OVR="compose.simulation.glim.elevation.yaml"
+    docker compose -f "$BASE" -f "$OVR" down --remove-orphans
+    docker compose -f "$BASE" -f "$OVR" pull
+    # elevation_traversability has `profiles: [elevation]` and is NOT
+    # started here on purpose. Bringing up all 5 containers in parallel
+    # has been observed to starve gazebo's gz_bridge during GLIM warm-up
+    # ("large time difference between points and imu!!" in glim logs)
+    # and the bridge never recovers. Start the 4 base services first,
+    # wait until GLIM owns the map TF, then bring elevation up.
+    docker compose -f "$BASE" -f "$OVR" up -d
+
+    echo "[start-simulation-glim-elevation] waiting for $NS/controller_manager service..."
+    for i in $(seq 1 120); do
+        if docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && ros2 service list 2>/dev/null | grep -q /$NS/controller_manager/list_controllers"; then
+            echo "[start-simulation-glim-elevation] controller_manager up."
+            break
+        fi
+        sleep 1
+    done
+
+    echo "[start-simulation-glim-elevation] loading + activating controllers (retry up to 5x)..."
+    for attempt in 1 2 3 4 5; do
+        out=$(docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && \
+            ros2 run controller_manager spawner joint_state_broadcaster drive_controller imu_broadcaster \
+                --controller-manager /$NS/controller_manager --activate-as-group 2>&1" 2>&1)
+        if echo "$out" | grep -q "Configured and activated all the parsed controllers"; then
+            echo "[start-simulation-glim-elevation] controllers loaded + activated (attempt $attempt)."
+            break
+        fi
+        if echo "$out" | grep -q "Controller already loaded"; then
+            echo "[start-simulation-glim-elevation] controllers already loaded — skipping spawner."
+            break
+        fi
+        echo "[start-simulation-glim-elevation] spawner attempt $attempt failed, sleeping 3 s..."
+        sleep 3
+    done
+
+    echo "[start-simulation-glim-elevation] disabling ekf_filter (GLIM owns odom -> base_link)..."
+    for i in $(seq 1 10); do
+        docker exec gazebo bash -c "pkill -9 -f ekf_node" 2>/dev/null || true
+        sleep 2
+        if docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && ros2 node list 2>/dev/null | grep -q /ekf_filter\\\|/$NS/ekf_filter"; then
+            echo "[start-simulation-glim-elevation]   ekf_filter still alive, killing again (try $i)..."
+        else
+            echo "[start-simulation-glim-elevation]   ekf_filter terminated."
+            break
+        fi
+    done
+
+    echo "[start-simulation-glim-elevation] resetting e-stop..."
+    docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && \
+        ros2 service call /$NS/hardware/e_stop_reset std_srvs/srv/Trigger 2>&1 | tail -3" || true
+
+    echo "[start-simulation-glim-elevation] waiting for GLIM TF $NS/odom -> $NS/base_link..."
+    for i in $(seq 1 180); do
+        if docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && timeout 2 ros2 run tf2_ros tf2_echo $NS/odom $NS/base_link 2>&1 | grep -q 'Translation:'"; then
+            echo "[start-simulation-glim-elevation] GLIM TF tree up."
+            break
+        fi
+        sleep 2
+    done
+
+    # ORDERING NOTE: Match `start-simulation-glim`'s baseline sequence —
+    # restart navigation IMMEDIATELY after the odom TF is up. Don't
+    # wait for the map TF separately; nav2 itself waits for it as part
+    # of local_costmap activation. Empirically, blocking on map TF
+    # before restarting navigation gives GLIM enough time to fall
+    # behind on its lidar/IMU queue under load and the rest of the
+    # bringup never recovers.
+    #
+    # nav2's StaticLayers subscribe to /occupancy_map_* lazily — they
+    # come up empty and start drawing as soon as the topics appear, so
+    # the navigation restart can safely happen before elevation is up.
+    #
+    # elevation_traversability subscribes to /panther/ouster/points
+    # directly (NOT /glim_ros/aligned_points_corrected) — this makes it
+    # a sibling of GLIM on the gz_bridge rather than a downstream
+    # subscriber to GLIM's output. With the old downstream wiring, GLIM
+    # consistently fell into a "large time difference between points
+    # and imu!!" loop the instant elevation_traversability joined; the
+    # sibling wiring keeps GLIM healthy. (The override is set on the
+    # `command:` of the elevation_traversability service in
+    # compose.simulation.glim.elevation.yaml.)
+    #
+    # nav2's StaticLayers subscribe to /occupancy_map_* lazily — they
+    # come up empty and start drawing as soon as the topics appear, so
+    # the navigation restart can safely happen before elevation is up.
+    echo "[start-simulation-glim-elevation] restarting navigation so nav2 lifecycle activates on a healthy, unloaded TF tree..."
+    docker restart navigation >/dev/null || true
+
+    echo "[start-simulation-glim-elevation] waiting for nav2 bt_navigator to reach ACTIVE..."
+    for i in $(seq 1 60); do
+        if docker exec navigation bash -lc "source /opt/ros/jazzy/setup.bash && ros2 lifecycle get /$NS/bt_navigator 2>/dev/null | grep -q active"; then
+            echo "[start-simulation-glim-elevation] nav2 ACTIVE."
+            break
+        fi
+        sleep 3
+    done
+
+    echo "[start-simulation-glim-elevation] starting elevation_traversability container..."
+    docker compose -f compose.simulation.glim.yaml -f compose.simulation.glim.elevation.yaml \
+        --profile elevation up -d elevation_traversability
+
+    echo "[start-simulation-glim-elevation] waiting for /occupancy_map_local..."
+    for i in $(seq 1 60); do
+        if docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && timeout 2 ros2 topic echo /occupancy_map_local --once --field header 2>&1 | grep -q 'frame_id'"; then
+            echo "[start-simulation-glim-elevation] /occupancy_map_local is publishing."
+            break
+        fi
+        sleep 2
+    done
+
+    echo "[start-simulation-glim-elevation] streaming logs (Ctrl-C to stop streaming; containers keep running — 'docker compose -f compose.simulation.glim.yaml -f compose.simulation.glim.elevation.yaml down' to stop)"
+    docker compose -f compose.simulation.glim.yaml -f compose.simulation.glim.elevation.yaml logs -f
+
 # Configure and run Husarion WebUI
 start-visualization: check-husarion-webui
     #!/bin/bash
