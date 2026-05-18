@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!--
+  baylands.sdf — wraps the baylands terrain model (in worlds/baylands/) into
+  a runnable Gazebo world for the Husarion Panther stack.
+
+  Activation:
+    1. Ensure GZ_SIM_RESOURCE_PATH includes /worlds (set in .env).
+    2. Set GZ_WORLD=/worlds/baylands.sdf in .env.
+    3. Restart the gazebo container.
+
+  Spawn position note:
+    The husarion simulate launch defaults to (x=0, y=-2, z=0.2). The baylands
+    model is posed at z=-1.3 inside its model.sdf so the mesh surface ends up
+    near world z=0 at the origin. If the robot spawns inside terrain or in
+    midair, edit the spawn pose (see docs/SWITCHING_WORLDS.md) or move the
+    <include> below by adjusting its <pose>.
+-->
+<sdf version="1.6">
+  <world name="baylands">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <!-- Same plugin set the bundled Husarion worlds use. -->
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact" />
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu" />
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics" />
+    <plugin filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster" />
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors" />
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands" />
+
+    <!-- Approx. San Francisco baylands area. -->
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <world_frame_orientation>ENU</world_frame_orientation>
+      <latitude_deg>37.455</latitude_deg>
+      <longitude_deg>-122.218</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+
+    <!-- Sun -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 100 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Initial-spawn pad. Catches the husarion launch's hard-coded spawn
+         at (0, -2, 0.2) BEFORE the just recipe's teleport runs. Without
+         this the robot falls to infinity at startup (baylands has no
+         collision at world (0, -2)). Thin and small — just a safety net. -->
+    <model name="default_spawn_pad">
+      <static>true</static>
+      <pose>0 -2 -0.01 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>20 20 0.02</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>20 20 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3 0.4 0.3 1</ambient>
+            <diffuse>0.3 0.4 0.3 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Teleport-landing pad. PANTHER_SPAWN_POSE in .env teleports the
+         panther above this pad; the robot drops onto a flat surface
+         every time, regardless of baylands mesh details. Pokes ~0.3 m
+         above the baylands terrain at this x,y so it's the dominant
+         collision surface there. Replaces the role of the GUI-inserted
+         box (GUI insertions don't survive a container restart). -->
+    <model name="spawn_pad">
+      <static>true</static>
+      <pose>-5.08 10.19 0.87 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>10 10 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>10 10 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.35 0.45 0.35 1</ambient>
+            <diffuse>0.35 0.45 0.35 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- baylands terrain — resolved via GZ_SIM_RESOURCE_PATH=/worlds (.env). -->
+    <include>
+      <uri>model://baylands</uri>
+      <name>baylands</name>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+  </world>
+</sdf>

@@ -225,22 +225,30 @@ start-simulation-glim-elevation:
         sleep 1
     done
 
-    echo "[start-simulation-glim-elevation] loading + activating controllers (retry up to 5x)..."
+    # Load + activate controllers. Spawner retries 5× because hardware
+    # interfaces (gz_ros_control plugin) can need a few seconds to be
+    # ready after gazebo starts — first call typically fails with
+    # "Failed to configure controller". switch_controller at the end is
+    # belt-and-braces: it activates the controllers in case the spawner
+    # loaded them but auto-activation timed out, leaving them INACTIVE
+    # (silent IMU → GLIM hangs).
+    echo "[start-simulation-glim-elevation] loading + activating controllers (retry up to 5×)..."
     for attempt in 1 2 3 4 5; do
         out=$(docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && \
             ros2 run controller_manager spawner joint_state_broadcaster drive_controller imu_broadcaster \
                 --controller-manager /$NS/controller_manager --activate-as-group 2>&1" 2>&1)
-        if echo "$out" | grep -q "Configured and activated all the parsed controllers"; then
-            echo "[start-simulation-glim-elevation] controllers loaded + activated (attempt $attempt)."
-            break
-        fi
-        if echo "$out" | grep -q "Controller already loaded"; then
-            echo "[start-simulation-glim-elevation] controllers already loaded — skipping spawner."
+        if echo "$out" | grep -qE "Configured and activated all the parsed controllers|Controller already loaded"; then
+            echo "[start-simulation-glim-elevation] spawner OK (attempt $attempt)."
             break
         fi
         echo "[start-simulation-glim-elevation] spawner attempt $attempt failed, sleeping 3 s..."
         sleep 3
     done
+    docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && \
+        ros2 service call /$NS/controller_manager/switch_controller \
+        controller_manager_msgs/srv/SwitchController \
+        '{activate_controllers: [joint_state_broadcaster, drive_controller, imu_broadcaster], deactivate_controllers: [], strictness: 1, activate_asap: true, timeout: {sec: 30, nanosec: 0}}' 2>&1 | tail -2" \
+        || true
 
     echo "[start-simulation-glim-elevation] disabling ekf_filter (GLIM owns odom -> base_link)..."
     for i in $(seq 1 10); do
@@ -257,6 +265,10 @@ start-simulation-glim-elevation:
     echo "[start-simulation-glim-elevation] resetting e-stop..."
     docker exec gazebo bash -lc "source /opt/ros/jazzy/setup.bash && \
         ros2 service call /$NS/hardware/e_stop_reset std_srvs/srv/Trigger 2>&1 | tail -3" || true
+
+    # Optional spawn-pose override (PANTHER_SPAWN_POSE in .env). See
+    # scripts/teleport-panther.sh — no-ops when the env var is unset.
+    bash scripts/teleport-panther.sh
 
     echo "[start-simulation-glim-elevation] waiting for GLIM TF $NS/odom -> $NS/base_link..."
     for i in $(seq 1 180); do

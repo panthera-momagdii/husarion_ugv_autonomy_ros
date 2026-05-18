@@ -114,9 +114,9 @@
         CostCritic:
           enabled: true
           cost_power: 1
-          cost_weight: 3.81
-          critical_cost: 300.0
-          consider_footprint: true
+          cost_weight: 2.0
+          critical_cost: 250.0
+          consider_footprint: false
           collision_cost: 1000000.0
           near_goal_distance: 1.0
         PathAlignCritic:
@@ -185,8 +185,8 @@
 
         inflation_layer:
           plugin: nav2_costmap_2d::InflationLayer
-          cost_scaling_factor: 3.0
-          inflation_radius: 0.55
+          cost_scaling_factor: 5.0
+          inflation_radius:  0.45
 
   ### GLOBAL COSTMAP — accumulated, driven by /occupancy_map_global ###
   global_costmap:
@@ -233,8 +233,8 @@
 
         inflation_layer:
           plugin: nav2_costmap_2d::InflationLayer
-          cost_scaling_factor: 3.0
-          inflation_radius: 0.55
+          cost_scaling_factor: 5.0
+          inflation_radius: 0.45
           inflate_around_unknown: false
           inflate_unknown: false
 
